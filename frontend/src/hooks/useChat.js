@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api.js';
-import socket from '../services/socket.js';
+import { socket } from '../services/socket.js';
 export function useChat(token, selectedUser, currentUserId){
  const [messages , setMessages] = useState([])
  const [error, setError] = useState('');
+ 
 useEffect(()=>{
         if(!selectedUser){
             setMessages([])

@@ -3,23 +3,37 @@ import './App.css'
 import Header from './Header.jsx'
 import { io } from 'socket.io-client';
 import {jwtDecode} from 'jwt-decode';
-import api from './services/api.js'
-import useChat from './hooks/useChat.js'
-import useUsers from './hooks/useUsers.js'
+import { socket } from './services/socket.js'; 
+import {useChat} from './hooks/useChat.js'
+import {useUsers} from './hooks/useUsers.js'
 
  
 
 function MainPage({token, setToken}){
     const [selectedUser, setSelectedUser] = useState()
     const {id: currentUser} = (jwtDecode(token))
-    const {user, error: usersError} = useUsers(token, currentUser)
+    const {users, error: usersError} = useUsers(token, currentUser)
     const {messages, error: chatError, sendMessage} = useChat(selectedUser, token)
+    const error = usersError || chatError;
+    const [NewMessageText, setNewMessageText] = useState();
     
     useEffect(()=>{
         
-    
+        socket.connect()
          socket.emit('addUser',currentUser)
+         return () => {
+            socket.disconnect();
+        }
     }, [currentUser])
+    const handleLogout = ()=>{
+        setToken(null)
+    }
+    const handleSendMessage =(event)=>{
+        event.preventDefault();
+        if (!NewMessageText.trim()) return;
+        sendMessage(NewMessageText)
+        setNewMessageText('')
+    }
     return(
          <div className="app-container">
             <Header />
@@ -61,7 +75,7 @@ function MainPage({token, setToken}){
                         <form  className="message-form" onSubmit={handleSendMessage}>
                             <input   
                             className="message-input" 
-                            value = {newMessageText} 
+                            value = {NewMessageText} 
                             placeholder='write a message' 
                             onChange={(event)=>setNewMessageText(event.target.value)} 
                             />
