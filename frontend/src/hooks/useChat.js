@@ -11,9 +11,11 @@ useEffect(()=>{
             return
         }
         const fetchMessage = async ()=>{
+            console.log(selectedUser,    selectedUser._id)
             try{
                 setError('')
                 const data = await api.getMessages(selectedUser._id)
+
                 setMessages(data)
             }catch(err){
                 setError(err.message)
@@ -29,11 +31,10 @@ useEffect(()=>{
         return ()=>{
             socket.off('getMessage', messageListener)
         }
-},[selectedUser, token])
+},[selectedUser, token, currentUserId])
     const sendMessage = (text) =>{
         if(!text.trim() || !selectedUser)return
         const messageData = {
-            senderId: currentUserId,
             receiverId: selectedUser._id,
             text: text
         }

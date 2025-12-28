@@ -1,4 +1,7 @@
+import mongoose from 'mongoose';
 import Message from '../models/messageModels.js'
+
+
 
 const MessageService = {
     async create(senderId, receiverId, text){
@@ -17,6 +20,7 @@ const MessageService = {
                     {senderId:  user2_ID , receiverId : user1_ID }
                 ]
         }).sort({ createdAt: 1 })
+        console.log('SERVICE',user1_ID , user2_ID,    'CHAT MESSAGES:', chatMessage)
         return chatMessage
     }
 }

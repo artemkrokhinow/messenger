@@ -32,5 +32,5 @@ code {
 }
 
 *  {
-  box-sizing: border-box; /* Упрощает работу с padding и border */
+  box-sizing: border-box; 
 }

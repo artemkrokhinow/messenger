@@ -26,8 +26,14 @@ const api = {
     getContacts: ()=>{
        return  request('/contacts')
     }, 
-    getMessages: (selectedUser)=>{
-        return request(`/chat/${selectedUser._id}`, {cache: 'no-cache'}) 
+    getMessages: (selectedId)=>{
+        return request(`/chat/${selectedId}`, {cache: 'no-cache'}) 
+    },
+    sendMessages: (messageData)=>{
+        return request(`/chat`, {
+            method: 'POST',
+            body:JSON.stringify(messageData)
+        })
     },
     login:(email, password)=>{
         return request('/login',{

@@ -13,7 +13,7 @@ function MainPage({token, setToken}){
     const [selectedUser, setSelectedUser] = useState()
     const {id: currentUser} = (jwtDecode(token))
     const {users, error: usersError} = useUsers(token, currentUser)
-    const {messages, error: chatError, sendMessage} = useChat(selectedUser, token)
+    const {messages, error: chatError, sendMessage} = useChat(token, selectedUser, currentUser)
     const error = usersError || chatError;
     const [NewMessageText, setNewMessageText] = useState();
     
@@ -46,7 +46,7 @@ function MainPage({token, setToken}){
                         {users.map(user => (
                             <li key={user._id}>
                                 <button className="user-button" onClick={() => setSelectedUser(user)}>
-                                    {user.email || user.username}
+                                    {user.email}
                                 </button>
                             </li>
                         ))}
