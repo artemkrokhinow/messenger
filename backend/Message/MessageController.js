@@ -5,7 +5,7 @@ const MessageController = {
         try{
             const senderId = req.user.id 
             const {receiverId, text } = req.body
-            console.log(`Conroller аccepted request to create message`)
+            console.log(`Conroller аccepted request to create message`, senderId , 'RECEIVER + TEXT' , receiverId , text )
             const newMessage = await MessageService.create(senderId, receiverId , text)
             res.status(201).json(newMessage)
 

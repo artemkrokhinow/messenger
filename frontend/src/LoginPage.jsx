@@ -37,12 +37,12 @@ function LoginPage({setToken}) {
     <div className="auth-page" >
     <form className="auth-form" onSubmit={handleLogin}>
    
-      <h1>Вход</h1>
+      <h1>Login</h1>
         <label htmlFor= "login-email"></label>
           <input value = {email} placeholder='email' onChange={(event)=>setEmail(event.target.value)} />
         <label htmlFor= "login-password"></label>
           <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
-          <button type = 'submit'>Войти</button>
+          <button type = 'submit'>Log in</button>
   
     </form>
     </div>

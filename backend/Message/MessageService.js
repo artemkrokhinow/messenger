@@ -5,6 +5,7 @@ import Message from '../models/messageModels.js'
 
 const MessageService = {
     async create(senderId, receiverId, text){
+        console.log('MESSAGE CREATE CREATE', senderId, receiverId)
         console.log(`service create message from ${senderId} to ${receiverId}`)
         const message = await Message.create({
             senderId : senderId,

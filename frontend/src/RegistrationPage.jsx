@@ -27,16 +27,18 @@ function RegistrationPage() {
       alert(`Вы пытаетесь войти с email: ${email}`)
     }
     return (
-      <form onSubmit={handleLogin}>
-      <div className="App">
-        <h1>Registration</h1>
-          <label htmlFor= "login-email"></label>
-            <input value = {email} placeholder='email' onChange={(event)=>setEmail(event.target.value)} />
-          <label htmlFor= "login-password"></label>
-            <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
-            <button type = 'submit'>Войти</button>
-      </div>
-      </form>
+      <div className="auth-page" >
+    <form className="auth-form" onSubmit={handleLogin}>
+   
+      <h1>Registration</h1>
+        <label htmlFor= "login-email"></label>
+          <input value = {email} placeholder='email' onChange={(event)=>setEmail(event.target.value)} />
+        <label htmlFor= "login-password"></label>
+          <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
+          <button type = 'submit'>Submit</button>
+  
+    </form>
+    </div>
     );
 }
 

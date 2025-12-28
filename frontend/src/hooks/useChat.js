@@ -32,12 +32,14 @@ useEffect(()=>{
             socket.off('getMessage', messageListener)
         }
 },[selectedUser, token, currentUserId])
-    const sendMessage = (text) =>{
+    const sendMessage = async  (text) =>{
         if(!text.trim() || !selectedUser)return
         const messageData = {
+            senderId: currentUserId,
             receiverId: selectedUser._id,
             text: text
         }
+        const data =  await api.sendMessages(messageData)
         socket.emit('sendMessage', messageData)
         setMessages(prev =>[...prev, {...messageData, _id: Date.now().toString()}])
 

@@ -7,7 +7,8 @@ import routerMessage from "./Message/routerMessage.js"
 import rrouter  from "./auth/routerRegistr.js"
 import { Server } from 'socket.io'
 import {createServer} from 'http'
-import MessageService from './Message/MessageService.js'
+import MessageController from './Message/MessageController.js'
+
 
 
 const PORT = process.env.PORT
@@ -32,7 +33,7 @@ io.on('connection', (socket)=>{
         if(!userSockets.includes(socket.id)){
             userSockets.push(socket.id)
         }
-        userSockets.push(socket.id)
+         userSockets.push(socket.id)
        onlineUsers.set(userId, userSockets)
         console.log(`+ User ${userId} added. Online users now:`, onlineUsers);
     })
@@ -42,13 +43,12 @@ io.on('connection', (socket)=>{
             console.log('Current online users:', onlineUsers);
         const receiverSocketId = onlineUsers.get(receiverId)
         if(receiverSocketId && receiverSocketId.length > 0 ){
-            const newMessage = await MessageService.create(senderId, receiverId , text)
+            const newMessage = await MessageController.create(senderId, receiverId , text)
             console.log(`message from ${senderId} to ${receiverId}`)
        receiverSocketId.forEach(socketId =>{
         io.to(socketId).emit('getMessage', newMessage)
        })
         } else {
-            console.log(`receiver ${receiverId} is offline `)
         }
     })
     console.log('io connect ')
@@ -68,7 +68,6 @@ io.on('connection', (socket)=>{
                 
             }
            
-             console.log(`User disconnected with socket ID: ${socket.id}. Online users now:`, onlineUsers);
     })
 })
 
