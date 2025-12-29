@@ -40,7 +40,7 @@ function MainPage({token, setToken}){
                <div className="main-layout">
                   <aside className="sidebar">
                 <div className="sidebar-header">
-                    <h2>Пользователи</h2>
+                    <h2>Contacts</h2>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     <ul className="user-list">
                         {users.map(user => (
@@ -51,7 +51,7 @@ function MainPage({token, setToken}){
                             </li>
                         ))}
                     </ul>
-                    <button className="logout-button" onClick={handleLogout} style={{ marginTop: 'auto' }}>Выйти</button>
+                    <button className="logout-button" onClick={handleLogout} style={{ marginTop: 'auto' }}>Logout</button>
                  
                 </div>
                 </aside>
@@ -60,7 +60,7 @@ function MainPage({token, setToken}){
                     {selectedUser ? (
                        <>
                     <div className="chat-header">
-                            <h2>Чат с {selectedUser?.email}</h2>
+                            <h2>Chat with {selectedUser?.email}</h2>
                             </div>
                             <div className = 'message-list'>
                                 {messages.map( msg => (
@@ -79,12 +79,12 @@ function MainPage({token, setToken}){
                             placeholder='write a message' 
                             onChange={(event)=>setNewMessageText(event.target.value)} 
                             />
-                            <button  className="send-button" type = 'submit'></button>
+                            <button  className="send-button" type = 'submit'>send</button>
                          </form>
                       </>
                     ) : (
                         <div className="no-chat-selected">
-                        <p>Выберите собеседника, чтобы начать чат</p>
+                        <p>Select a contact to start a chat</p>
                         </div>
                     )}
                     
