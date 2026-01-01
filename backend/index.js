@@ -16,7 +16,9 @@ const DB_URL = process.env.DB_URL
 const app = express()
 const server = createServer(app)
 const io = new Server(server, {
-    cors: {origin:"https://mymessenger-4jqz.onrender.com/login"}
+    cors: {origin:["https://mymessenger-4jqz.onrender.com", 
+                     "http://localhost:3000" 
+    ]}
 })
 
 app.use(cors())
