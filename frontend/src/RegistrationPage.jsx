@@ -1,5 +1,7 @@
 import React, {useState} from 'react'; 
 import {useNavigate} from 'react-router-dom'
+import {api} from '../services/api'
+
 function RegistrationPage() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
@@ -7,14 +9,7 @@ function RegistrationPage() {
     const handleLogin = async (event) =>{
       event.preventDefault();
       try{
-     const response = await fetch(`http://localhost:5000/api/registration`, {
-        method:'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, password}),
-        
-      })
-      const data = await response.json()
-      if (response.ok){
+      const data = await api.registration(email, password)
         alert('registration successful')
         navigate('/login')
       } else {

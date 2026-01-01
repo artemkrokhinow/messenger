@@ -1,5 +1,6 @@
 import React, {useState} from 'react'; 
 import { useNavigate } from 'react-router-dom'
+import {api} from '../services/api'
 
 
 
@@ -10,13 +11,7 @@ function LoginPage({setToken}) {
   const handleLogin = async (event) =>{
     event.preventDefault();
     try{
-   const response = await fetch(`http://localhost:5000/api/login`, {
-      method:'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email, password}),
-      
-    })
-    const data = await response.json()
+    const data = await api.login(email, password)
     if (data.token){
       localStorage.setItem('token', data.token)
       setToken(data.token)
