@@ -12,11 +12,9 @@ function RegistrationPage() {
       const data = await api.registration(email, password)
         alert('registration successful')
         navigate('/login')
-      } else {
-        alert('fail login')
-      }
   } catch(e) {
     console.error(e)
+    alert('fail login')
   }
       console.log("Попытка входа с такими данными:", {email: email , password : password})
       alert(`Вы пытаетесь войти с email: ${email}`)
