@@ -42,9 +42,12 @@ function LoginPage({setToken}) {
           <input value = {email} placeholder='email' onChange={(event)=>setEmail(event.target.value)} />
         <label htmlFor= "login-password"></label>
           <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
-          <button type = 'submit'>Log in</button>
-  
+          <button type = 'submit'>Submit</button>
     </form>
+    <div>
+
+    <button className = 'noAcc' onClick={()=> navigate('/Registration')}>Dont have an account</button>
+    </div>
     </div>
   );
 }

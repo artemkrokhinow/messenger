@@ -97,7 +97,7 @@ backdrop-filter: blur(10px);
  -webkit-backdrop-filter: blur(10px);
 box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 transition: all 0.2s ease;
-    
+font-weight: bold;    
 }
 .user-button:hover {
   background: rgba(255, 255, 255, 0.45);
@@ -106,10 +106,22 @@ transition: all 0.2s ease;
   border-color: rgba(255, 255, 255, 0.8);
 }
 .user-button.selected {
-  background: rgba(255, 255, 255, 0.7);  
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8), 0 2px 5px rgba(0,0,0,0.05);
-  border-color: #fff;
-  font-weight: bold;
+display: flex;
+padding: 12px 15px;
+gap: 10px;
+width: 100%;
+margin-bottom: 8px;
+color: #222; 
+cursor: pointer;
+text-align: center;
+border-color: #fff;
+border: 2px solid #00000021;
+border-radius:10px;
+background: rgba(255, 255, 255, 0.7);  
+backdrop-filter: blur(10px);  
+ -webkit-backdrop-filter: blur(10px);
+box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8), 0 2px 5px rgba(0,0,0,0.05);
+transition: all 0.2s ease;
 }
 
 .logout-button {
@@ -165,10 +177,13 @@ border-radius:10px;
    align-self: flex-start;
 padding:0.7% ;
 margin: 10px 20px;
-
+background: rgba(255, 255, 255, 0.7);  
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8), 0 2px 5px rgba(0,0,0,0.05);
+  border-color: #fff;
+  font-weight: bold;
 border: 1px;
 border-radius:10px;
-  box-shadow: 0 5px 15px #000000a1;
+  
  }
 .message-sent {
    align-self: flex-end;
@@ -176,7 +191,10 @@ padding:0.7% ;
 margin: 10px 20px;
 border: 1px;
 border-radius:10px;
-  box-shadow: 0 5px 15px #000000a1;
+  background: rgba(255, 255, 255, 0.7);  
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8), 0 2px 5px rgba(0,0,0,0.05);
+  border-color: #fff;
+  font-weight: bold;
 }
 
 
@@ -241,11 +259,7 @@ border-color:#00000000;
 .no-chat-selected {}
 
 .auth-page {
-
-}
-.auth-form {
-  display: flex;
-  flex-direction:column;
+  flex-direction:row;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
@@ -256,6 +270,12 @@ background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);}
 .auth-form h1 {
    align-self: center;
+}
+.auth-form {
+ display: flex;
+  flex-direction:column;
+   align-self: center;
+    justify-content: center;
 }
 .auth-form input {
    align-self: center;
@@ -273,17 +293,12 @@ border-radius: 6px;
 cursor: pointer;
 text-align: left;
 font-weight: 600;
+font-size:14px;
 color: #000000;
 border-color: rgb(255, 255, 255);
 border: solid transparent;
 box-shadow: 0 1px 5px white;
-}
-.auth-form input :focus {
-  border: solid transparent;
-border-radius:6px;
-background: #1b1b1b21;
-border-color:#00000000;
-
+placeholder-color: black;
 }
 .auth-form button {
    align-self: center;
@@ -305,6 +320,7 @@ border-color: rgb(255, 255, 255);
 border: solid transparent;
 box-shadow: 0 1px 5px white;
 font-weight: 600;
+font-size:14px;
 }
 .auth-form button:hover{
 border: solid transparent;
@@ -313,4 +329,11 @@ background: #ffffff21;
 border-color:#00000000;
 transform: translateY(-0.1px);
 box-shadow: 0 5px 30px white;
+}
+.noAcc{
+  display: flex;
+  flex-direction:column;
+   align-self: center;
+    justify-content: center;
+ background: black 
 }

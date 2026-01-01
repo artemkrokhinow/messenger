@@ -33,7 +33,7 @@ useEffect(()=>{
         }
 },[selectedUser, token, currentUserId])
     const sendMessage = async  (text) =>{
-        if(!text.trim() || !selectedUser)return
+        if(!text.trim() || !selectedUser || text === null)return
         const messageData = {
             senderId: currentUserId,
             receiverId: selectedUser._id,

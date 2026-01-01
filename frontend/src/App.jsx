@@ -15,8 +15,8 @@ function App() {
       
      {!token && (
         <nav>
-          <Link to = '/Login'>Login</Link> | 
-       <Link to = '/Registration'>Registration</Link>
+          <Link to = '/Login'></Link> 
+       <Link to = '/Registration'></Link>
       
     </nav>
   )}

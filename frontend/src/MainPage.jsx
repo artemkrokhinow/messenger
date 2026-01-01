@@ -45,7 +45,7 @@ function MainPage({token, setToken}){
                     <ul className="user-list">
                         {users.map(user => (
                             <li key={user._id}>
-                                <button className="user-button" onClick={() => setSelectedUser(user)}>
+                                <button className={`user-button ${selectedUser?._id === user._id ? 'selected' : ''}`} onClick={() => setSelectedUser(user)}>
                                     {user.email}
                                 </button>
                             </li>
