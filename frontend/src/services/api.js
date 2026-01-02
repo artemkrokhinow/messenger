@@ -1,4 +1,4 @@
-const BASE_URL = "https://messenger-backend-g6ck.onrender.com"
+const BASE_URL = "https://messenger-backend-g6ck.onrender.com/api"
 
  async function request(url , options = {}){
     const token = localStorage.getItem('token')
