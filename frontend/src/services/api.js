@@ -9,6 +9,12 @@ const BASE_URL = "https://messenger-backend-g6ck.onrender.com/api"
     } const config = {...options, headers}
     try{
         const response = await fetch (BASE_URL + url, config)
+        if(response.status === 401){
+            localStorage.removeItem('token')
+            window.location.href = '/login'
+            console.warn('Unauthorized! Redirecting to login.');
+            return;
+        }
         const data = await response.json()
         if(response.ok){
             return data 
