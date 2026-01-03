@@ -25,6 +25,7 @@ function MainPage({token, setToken}){
             socket.disconnect();
         }
     }, [currentUser])
+
     const handleLogout = ()=>{
         setToken(null)
     }

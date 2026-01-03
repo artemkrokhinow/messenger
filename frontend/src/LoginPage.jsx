@@ -1,5 +1,5 @@
 import React, {useState} from 'react'; 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import api from './services/api'
 
 
@@ -38,11 +38,8 @@ function LoginPage({setToken}) {
         <label htmlFor= "login-password"></label>
           <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
           <button type = 'submit'>Submit</button>
+          <Link className = 'alternative-button'to ='/Registration'>Dont have an account</Link>
     </form>
-    <div>
-
-    <button className = 'noAcc' onClick={()=> navigate('/Registration')}>Dont have an account</button>
-    </div>
     </div>
   );
 }
