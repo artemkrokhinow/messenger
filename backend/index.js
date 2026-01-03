@@ -11,7 +11,7 @@ import MessageController from './Message/MessageController.js'
 
 
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 const DB_URL = process.env.DB_URL
 const app = express()
 const server = createServer(app)
