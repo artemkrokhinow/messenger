@@ -15,7 +15,7 @@ function MainPage({token, setToken}){
     const {users, error: usersError} = useUsers(token, currentUser)
     const {messages, error: chatError, sendMessage} = useChat(token, selectedUser, currentUser)
     const error = usersError || chatError;
-    const [NewMessageText, setNewMessageText] = useState();
+    const [NewMessageText, setNewMessageText] = useState('');
     
     useEffect(()=>{
         
@@ -28,10 +28,11 @@ function MainPage({token, setToken}){
 
     const handleLogout = ()=>{
         setToken(null)
+        localStorage.removeItem('token')
     }
     const handleSendMessage =(event)=>{
         event.preventDefault();
-        if (!NewMessageText.trim()) return;
+        if (!NewMessageText.trim() === 0 ) return;
         sendMessage(NewMessageText)
         setNewMessageText('')
     }

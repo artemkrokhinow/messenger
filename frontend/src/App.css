@@ -38,8 +38,6 @@ background: rgba(255, 255, 255, 0.25);
   align-items: center;
   box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
-.app-logo {
-}
 .App-logo {
   width:auto;
   height:40px;
@@ -256,8 +254,6 @@ border-radius:6px;
 background: rgb(226, 226, 226);
 border-color:#00000000;
 }
-.no-chat-selected {}
-
 .auth-page {
   flex-direction:row;
   height: 100vh;
@@ -295,6 +291,7 @@ text-align: left;
 font-weight: 600;
 font-size:14px;
 color: #000000;
+opacity: 1;
 border-color: rgb(255, 255, 255);
 border: solid transparent;
 box-shadow: 0 1px 5px white;
