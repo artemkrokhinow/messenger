@@ -26,6 +26,7 @@ app.use(express.json())
 app.use('/api', router)
 app.use('/api', rrouter)
 app.use('/api', routerMessage)
+app.use('/api', routerProfile)
 
 let onlineUsers = new Map()
 io.on('connection', (socket)=>{

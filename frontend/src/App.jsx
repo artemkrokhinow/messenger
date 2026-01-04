@@ -3,6 +3,7 @@ import LoginPage from './LoginPage.jsx'
 import RegistrationPage from './RegistrationPage.jsx'
 import { Route, Routes, Link, Navigate, BrowserRouter} from 'react-router-dom';
 import MainPage from './MainPage.jsx';
+import ProfilePage from './ProfilePage.jsx';
 function App() {
   const [ token ,setToken  ] = useState(localStorage.getItem('token'))
   const handleLogout = ()=>{
@@ -25,12 +26,14 @@ function App() {
         <>
         <Route path = '*' element={<Navigate to = '/main'/>}/>
    <Route path = '/main' element= {<MainPage token={token} setToken={setToken} handleLogout={handleLogout} />} />
+    <Route path = '/profile/:email' element= {<ProfilePage token={token}/>} />
    </>
       ):(
         <>
          <Route path = '/Login' element ={<LoginPage setToken = {setToken}/>} />
         <Route path = '/Registration' element ={<RegistrationPage setToken = {setToken}/>}/>
         <Route path = '*' element={<Navigate to = '/login'/>}/>
+        
         </>
       )}
     </Routes>

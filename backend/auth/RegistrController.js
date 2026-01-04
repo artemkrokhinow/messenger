@@ -1,13 +1,13 @@
-import Role from '../models/roleModels.js' 
+
 import User from '../models/userModels.js'
 import bcrypt from "bcryptjs";  
 import jwt from "jsonwebtoken";  
 import {secret} from "../config.js"
 
 
-const generateAccessToken = (id, roles) =>{
+const generateAccessToken = (id) =>{
     const payload = {
-        id , roles
+        id
     }
     return jwt.sign(payload, secret, {expiresIn: "24h"})
 }
@@ -20,14 +20,8 @@ const RegistrController = {
             if (NullUser){
                 return res.status(400).json ({message: 'user is already registrated'  })
             } 
-            let newRole = await Role.findOne({value: "USER"}) 
-            if (!newRole){
-                newRole = new Role({value: "USER"})
-                await newRole.save()
-                console.log(`new role create ${newRole}`)
-            }
             const hashPassword = await bcrypt.hash(password, 5)
-            const user = new User({email , password:  hashPassword, roles: [newRole.value]})
+            const user = new User({email , password:  hashPassword})
             await user.save()
             return res.json({message: `пользователь ${user.email}`})
         }catch(e){
@@ -46,7 +40,7 @@ const RegistrController = {
             const CheckPassword = bcrypt.compareSync(password, user.password)
             if (!CheckPassword){
                  return res.status(400).json ({message: 'not registrated '  })
-            } const token = generateAccessToken(user._id, user.role)
+            } const token = generateAccessToken(user._id)
             return res.json({token})
         }catch(e){
             res.status(400).json({message: 'login error' })

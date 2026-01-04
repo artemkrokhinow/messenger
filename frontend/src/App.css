@@ -6,8 +6,8 @@ html, body, #root {
   font-family: "Montserrat", sans-serif;
            background-color: #e0e5ec;
            background-image: 
-    radial-gradient(at 0% 0%, rgb(20, 5, 95) 0, transparent 100%), 
-    radial-gradient(at 100% 0%, rgb(0, 0, 0) 0, transparent 100%);
+    radial-gradient(at 0% 0%, #2196f3(8, 185, 255) 0, transparent 100%), 
+    radial-gradient(at 100% 0%, hsl(0, 0%, 100%) 0, transparent 100%);
   overflow: hidden;
         }
 

@@ -32,6 +32,9 @@ const api = {
     getContacts: ()=>{
        return  request('/contacts')
     }, 
+    getProfile: (email)=>{
+        return request(`/profile/${email}`, {cache: 'no-cache'}) 
+    },
     getMessages: (selectedId)=>{
         return request(`/chat/${selectedId}`, {cache: 'no-cache'}) 
     },

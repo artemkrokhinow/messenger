@@ -1,4 +1,5 @@
-import React, {useState, useEffect   } from 'react'; 
+import React, {useState, useEffect} from 'react'; 
+import { useNavigate } from 'react-router-dom';
 import './App.css'  
 import Header from './Header.jsx'
 import { io } from 'socket.io-client';
@@ -10,13 +11,13 @@ import {useUsers} from './hooks/useUsers.js'
  
 
 function MainPage({token, setToken}){
+    const navigate = useNavigate();
     const [selectedUser, setSelectedUser] = useState()
     const {id: currentUser} = (jwtDecode(token))
     const {users, error: usersError} = useUsers(token, currentUser)
     const {messages, error: chatError, sendMessage} = useChat(token, selectedUser, currentUser)
     const error = usersError || chatError;
     const [NewMessageText, setNewMessageText] = useState('');
-    
     useEffect(()=>{
         
         socket.connect()
@@ -36,6 +37,12 @@ function MainPage({token, setToken}){
         sendMessage(NewMessageText)
         setNewMessageText('')
     }
+    const handleProfile=()=>{
+        if(selectedUser){
+            navigate(`/profile/${selectedUser.email}`)
+        }
+    }
+
     return(
          <div className="app-container">
             <Header />
@@ -62,7 +69,8 @@ function MainPage({token, setToken}){
                     {selectedUser ? (
                        <>
                     <div className="chat-header">
-                            <h2>Chat with {selectedUser?.email}</h2>
+                            <h2>Chat with 
+                                <button className = 'alternative-button' onClick={handleProfile}>{selectedUser?.email}</button></h2>
                             </div>
                             <div className = 'message-list'>
                                 {messages.map( msg => (
