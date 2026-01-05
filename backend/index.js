@@ -1,15 +1,13 @@
 import 'dotenv/config';
 import express from 'express'
 import mongoose from 'mongoose'
-import router from "./post/routerPost.js"
 import cors from 'cors'
 import routerMessage from "./Message/routerMessage.js"
 import rrouter  from "./auth/routerRegistr.js"
 import { Server } from 'socket.io'
 import {createServer} from 'http'
 import MessageController from './Message/MessageController.js'
-
-
+import routerProfile from './Profile/ProfileRouter.js'
 
 const PORT = process.env.PORT || 5000
 const DB_URL = process.env.DB_URL
@@ -23,7 +21,6 @@ const io = new Server(server, {
 
 app.use(cors())
 app.use(express.json())
-app.use('/api', router)
 app.use('/api', rrouter)
 app.use('/api', routerMessage)
 app.use('/api', routerProfile)
@@ -41,17 +38,12 @@ io.on('connection', (socket)=>{
         console.log(`+ User ${userId} added. Online users now:`, onlineUsers);
     })
     socket.on('sendMessage',async ({senderId, receiverId, text}) =>{
-          console.log(`\n--- Attempting to send message ---`);
-            console.log(`From: ${senderId} -> To: ${receiverId}`);
-            console.log('Current online users:', onlineUsers);
         const receiverSocketId = onlineUsers.get(receiverId)
         if(receiverSocketId && receiverSocketId.length > 0 ){
             const newMessage = await MessageController.create(senderId, receiverId , text)
-            console.log(`message from ${senderId} to ${receiverId}`)
        receiverSocketId.forEach(socketId =>{
         io.to(socketId).emit('getMessage', newMessage)
        })
-        } else {
         }
     })
     console.log('io connect ')

@@ -6,18 +6,18 @@ function RegistrationPage() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password , setPassword] = useState('')
+    const [name , setName] = useState('')
     const handleLogin = async (event) =>{
       event.preventDefault();
       try{
-      const data = await api.registration(email, password)
+      const data = await api.registration(email, password, name)
         alert('registration successful')
         navigate('/login')
   } catch(e) {
     console.error(e)
     alert('fail login')
   }
-      console.log("Попытка входа с такими данными:", {email: email , password : password})
-      alert(`Вы пытаетесь войти с email: ${email}`)
+      console.log("Попытка входа с такими данными:", {email: email , password : password, name: name})
     }
     return (
       <div className="auth-page" >
@@ -26,8 +26,10 @@ function RegistrationPage() {
       <h1>Registration</h1>
         <label htmlFor= "login-email"></label>
           <input value = {email} placeholder='email' onChange={(event)=>setEmail(event.target.value)} />
+        <input value = {name} placeholder='name' onChange={(event)=>setName(event.target.value)} />
         <label htmlFor= "login-password"></label>
           <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
+          
           <button type = 'submit'>Submit</button>
           <Link className = 'alternative-button'to ='/LoginPage'>I have an account</Link>
   

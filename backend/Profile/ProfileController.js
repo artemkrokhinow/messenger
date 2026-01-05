@@ -1,4 +1,4 @@
-import MongoProfile from '../models/MongoProfile.js'
+
 import ProfileService from './ProfileService.js'
 
 const ProfileController = {

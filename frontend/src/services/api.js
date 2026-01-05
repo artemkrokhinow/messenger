@@ -50,10 +50,10 @@ const api = {
             body:JSON.stringify({email, password})
         })
     },
-    registration:(email, password)=>{
+    registration:(email, password, name)=>{
         return request('/registration',{
             method: 'POST',
-            body:JSON.stringify({email, password})
+            body:JSON.stringify({email, password, name})
         })
     }
 

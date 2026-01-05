@@ -15,13 +15,14 @@ const generateAccessToken = (id) =>{
 const RegistrController = {
     async registration(req ,res) {
         try {
-            const {email , password} = req.body
+            const {email, password, name} = req.body
             const NullUser = await User.findOne({email})
             if (NullUser){
                 return res.status(400).json ({message: 'user is already registrated'  })
             } 
             const hashPassword = await bcrypt.hash(password, 5)
-            const user = new User({email , password:  hashPassword})
+            const user = new User({email :email, password:  hashPassword, name: name})
+            сonsole.log('USER DATA', user)
             await user.save()
             return res.json({message: `пользователь ${user.email}`})
         }catch(e){
