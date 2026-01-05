@@ -1,5 +1,5 @@
 import React, {useState} from 'react'; 
-import {useNavigate, Link} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import api from './services/api'
 
 function RegistrationPage() {
@@ -7,21 +7,21 @@ function RegistrationPage() {
     const [email, setEmail] = useState('')
     const [password , setPassword] = useState('')
     const [name , setName] = useState('')
-    const handleLogin = async (event) =>{
+    const handleRegistr = async (event) =>{
       event.preventDefault();
       try{
-      const data = await api.registration(email, password, name)
+        await api.registration(email, password, name)
         alert('registration successful')
         navigate('/login')
   } catch(e) {
-    console.error(e)
+    console.error('Fail registration',e)
     alert('fail login')
   }
       console.log("Попытка входа с такими данными:", {email: email , password : password, name: name})
     }
     return (
       <div className="auth-page" >
-    <form className="auth-form" onSubmit={handleLogin}>
+    <form className="auth-form" onSubmit={handleRegistr}>
    
       <h1>Registration</h1>
         <label htmlFor= "login-email"></label>
@@ -29,9 +29,8 @@ function RegistrationPage() {
         <input value = {name} placeholder='name' onChange={(event)=>setName(event.target.value)} />
         <label htmlFor= "login-password"></label>
           <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
-          
           <button type = 'submit'>Submit</button>
-          <Link className = 'alternative-button'to ='/LoginPage'>I have an account</Link>
+          <a className = 'alternative-button'to ='/Login'>I have an account</a>
   
     </form>
     </div>

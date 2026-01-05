@@ -36,6 +36,11 @@ function ProfilePage(){
             {profile && (
                 <div>
                     <p><strong>Email:</strong> {email}</p>
+                    <p><strong>Avatar:</strong>{profile.avatar}</p>
+                    <p><strong>name:</strong>{profile.name}</p>
+                    <p><strong>Description:</strong> {profile.description}</p>
+                    <p><strong>Birthday:</strong> {profile.birthday}</p>
+                    <p><strong>Last Seen:</strong> {profile.lastSeen}</p>
                 </div>
             )}
           </main>

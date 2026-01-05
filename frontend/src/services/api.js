@@ -1,4 +1,4 @@
-const BASE_URL = "https://messenger-backend-g6ck.onrender.com/api"
+const BASE_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5000/api');
 
  async function request(url , options = {}){
     const token = localStorage.getItem('token')
@@ -20,6 +20,7 @@ const BASE_URL = "https://messenger-backend-g6ck.onrender.com/api"
             return data 
     } else{
            throw new Error(data.message || 'API Error');
+           
     }
     
 }catch (error){

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api.js';
 
-   export function useProfile (token,email){
-const [profile, setProfile] = useState([]);
+   export function useProfile (email){
+const [profile, setProfile] = useState(null);
 const [error, setError] = useState('');
  useEffect(()=>{
-    if(!token || !email) return;
+    if( !email) return;
     
         const  fetchProfile = async ()=>{
             try{
@@ -19,7 +19,7 @@ const [error, setError] = useState('');
 
         }
         fetchProfile()
-},[token, email])
+},[email])
 return{profile, error}
   }
  

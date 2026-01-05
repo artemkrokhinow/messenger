@@ -21,8 +21,8 @@ const RegistrController = {
                 return res.status(400).json ({message: 'user is already registrated'  })
             } 
             const hashPassword = await bcrypt.hash(password, 5)
-            const user = new User({email :email, password:  hashPassword, name: name})
-            сonsole.log('USER DATA', user)
+            const user = new User({email, password:  hashPassword, name})
+            console.log('USER DATA', user)
             await user.save()
             return res.json({message: `пользователь ${user.email}`})
         }catch(e){
@@ -34,7 +34,7 @@ const RegistrController = {
     async login(req, res){
         try {
              const {email , password} = req.body
-             const user = await User.findOne({email})
+             const user = await User.findOne({$or: [{email: email}, {name: email}]})
             if (!user){
                 return res.status(400).json ({message: 'not registrated '  })
             }  

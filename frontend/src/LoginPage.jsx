@@ -23,6 +23,7 @@ function LoginPage({setToken}) {
     }
 } catch(e) {
   console.error(e)
+  alert('fail login')
 }
     console.log("Попытка входа с такими данными:", {email: email , password : password})
     
@@ -34,7 +35,7 @@ function LoginPage({setToken}) {
    
       <h1>Login</h1>
         <label htmlFor= "login-email"></label>
-          <input value = {email} placeholder='email' onChange={(event)=>setEmail(event.target.value)} />
+          <input value = {email} placeholder='email oder name' onChange={(event)=>setEmail(event.target.value)} />
         <label htmlFor= "login-password"></label>
           <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
           <button type = 'submit'>Submit</button>

@@ -1,4 +1,4 @@
-
+import getContacts from '../auth/RegistrController.js'
 import ProfileService from './ProfileService.js'
 
 const ProfileController = {
