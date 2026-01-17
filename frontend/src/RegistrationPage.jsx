@@ -30,7 +30,7 @@ function RegistrationPage() {
         <label htmlFor= "login-password"></label>
           <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
           <button type = 'submit'>Submit</button>
-          <a className = 'alternative-button'to ='/Login'>I have an account</a>
+          <button className = 'alternative-button' href='/Login'>I have an account</button>
   
     </form>
     </div>

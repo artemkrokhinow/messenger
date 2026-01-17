@@ -3,7 +3,7 @@ import LoginPage from './LoginPage.jsx'
 import RegistrationPage from './RegistrationPage.jsx'
 import { Route, Routes, Link, Navigate, BrowserRouter} from 'react-router-dom';
 import MainPage from './MainPage.jsx';
-import ProfilePage from './ProfilePage.jsx';
+import ProfilePage from './Profile/ProfilePage.jsx';
 function App() {
   const [ token ,setToken  ] = useState(localStorage.getItem('token'))
   const handleLogout = ()=>{

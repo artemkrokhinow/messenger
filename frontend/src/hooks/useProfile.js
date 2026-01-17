@@ -22,4 +22,10 @@ const [error, setError] = useState('');
 },[email])
 return{profile, error}
   }
- 
+  export const uploadAvatar = async (email, file) => {
+    try {
+        await api.uploadAvatar(email, file);
+    } catch (err) {
+        console.error('Error uploading avatar:', err);
+        throw err;
+    }}

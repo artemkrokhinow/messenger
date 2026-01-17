@@ -11,7 +11,17 @@ const ProfileController = {
         } catch(e) {
             res.status(500).json({message: "controll getProfile error"})
         }
+    },
+async uploadAvatar(req, res){
+    try {
+        const userEmail = req.params.selectedEmail
+        const {file} = req.file
+        await ProfileService.uploadAvatar(userEmail, file )
+        return res.json({ message: "Avatar uploaded successfully" })
     }
-   }
-
+    catch (e) {
+        res.status(500).json({ message: "controll uploadAvatar error" })
+    }
+}
+}
    export default ProfileController 

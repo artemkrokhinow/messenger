@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Profile from '../models/ProfileModels.js'
 import getContacts from '../auth/RegistrController.js'
 import User from '../models/userModels.js'
+import * as sharp from 'sharp';
 
 const ProfileService = {
     async getProfile(email){
@@ -25,6 +26,20 @@ const ProfileService = {
         }
         console.log('ServiceEmail',email,'ProfileDate:', chatProfile)
         return chatProfile
-    }
+    },
+    async uploadAvatar(userEmail, file ) {
+        const profile = await Profile.findOne({ email: userEmail });
+        if (!profile) {
+            throw new Error('Profile not found');
+        }
+    const img = await sharp(file)
+     .resize(800) 
+     .toFormat('avif') 
+     .toBuffer()     
+        profile.avatar = img;
+        return await profile.save();
+
+}       
+
 }
 export default ProfileService  

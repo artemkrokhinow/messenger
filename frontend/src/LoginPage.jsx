@@ -39,7 +39,7 @@ function LoginPage({setToken}) {
         <label htmlFor= "login-password"></label>
           <input value = {password} placeholder='password' onChange={(event)=>setPassword(event.target.value)} />
           <button type = 'submit'>Submit</button>
-          <Link className = 'alternative-button'to ='/Registration'>Dont have an account</Link>
+          <a className = 'alternative-button' href='/Registration'>Dont have an account</a>
     </form>
     </div>
   );

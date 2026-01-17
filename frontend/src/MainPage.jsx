@@ -55,7 +55,7 @@ function MainPage({token, setToken}){
                         {users.map(user => (
                             <li key={user._id}>
                                 <button className={`user-button ${selectedUser?._id === user._id ? 'selected' : ''}`} onClick={() => setSelectedUser(user)}>
-                                    {user.email}
+                                    {user.name}
                                 </button>
                             </li>
                         ))}
@@ -70,7 +70,8 @@ function MainPage({token, setToken}){
                        <>
                     <div className="chat-header">
                             <h2>Chat with 
-                                <button className = 'alternative-button' onClick={handleProfile}>{selectedUser?.email}</button></h2>
+                                <button className = 'alternative-button' onClick={handleProfile}>
+                                    <h2>{selectedUser?.name}</h2></button></h2>
                             </div>
                             <div className = 'message-list'>
                                 {messages.map( msg => (

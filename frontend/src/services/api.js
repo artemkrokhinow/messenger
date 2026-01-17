@@ -2,7 +2,10 @@ const BASE_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5000/api');
 
  async function request(url , options = {}){
     const token = localStorage.getItem('token')
-    const headers = {'Content-Type':'application/json'}
+    const headers = {};
+    if(!(options.body instanceof FormData)){
+        headers['Content-Type'] = 'application/json';
+    }
     if(token){
         headers['Authorization'] = `Bearer ${token}`
       
@@ -12,7 +15,7 @@ const BASE_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5000/api');
         if(response.status === 401){
             localStorage.removeItem('token')
             window.location.href = '/login'
-            console.warn('Unauthorized! Redirecting to login.');
+            console.log('Unauthorized! Redirecting to login.');
             return;
         }
         const data = await response.json()
@@ -24,7 +27,7 @@ const BASE_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5000/api');
     }
     
 }catch (error){
-    console.error('API Service Error:', error);
+    console.error('API Service Error:', error, BASE_URL);
     throw error;
 }
 
@@ -45,6 +48,14 @@ const api = {
             body:JSON.stringify(messageData)
         })
     },
+    uploadAvatar: (email, file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('email', email)
+        return request(`/profile/${email}`, {
+            method: 'POST',
+            body:formData
+        })},
     login:(email, password)=>{
         return request('/login',{
             method: 'POST',
