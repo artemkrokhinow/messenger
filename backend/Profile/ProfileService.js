@@ -27,17 +27,17 @@ const ProfileService = {
         console.log('ServiceEmail',email,'ProfileDate:', chatProfile)
         return chatProfile
     },
-    async uploadAvatar(userEmail, file ) {
+    async uploadAvatar(userEmail, avatar ) {
         const profile = await Profile.findOne({ email: userEmail });
         if (!profile) {
             throw new Error('Profile not found');
         }
-    const img = await sharp(file)
-     .resize(800) 
-     .toFormat('avif') 
-     .toBuffer()     
-        profile.avatar = img;
-        return await profile.save();
+        const updatedAvatar = await Profile.findOneAndUpdate(
+            { email: userEmail },
+            { avatar: avatar },
+            { new: true }
+        )
+        return await updatedAvatar.save();
 
 }       
 

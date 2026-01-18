@@ -22,9 +22,19 @@ const [error, setError] = useState('');
 },[email])
 return{profile, error}
   }
+  const convertFileToBase64 = async (file) => {
+return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+             reader.readAsDataURL(file);
+
+        });
+    }
   export const uploadAvatar = async (email, file) => {
     try {
-        await api.uploadAvatar(email, file);
+        const base64String = await convertFileToBase64(file);
+        await api.uploadAvatar(email, base64String);
     } catch (err) {
         console.error('Error uploading avatar:', err);
         throw err;

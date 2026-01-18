@@ -49,12 +49,9 @@ const api = {
         })
     },
     uploadAvatar: (email, file) => {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('email', email)
         return request(`/profile/${email}`, {
             method: 'POST',
-            body:formData
+            body:JSON.stringify(file)
         })},
     login:(email, password)=>{
         return request('/login',{

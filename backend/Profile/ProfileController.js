@@ -15,8 +15,11 @@ const ProfileController = {
 async uploadAvatar(req, res){
     try {
         const userEmail = req.params.selectedEmail
-        const {file} = req.file
-        await ProfileService.uploadAvatar(userEmail, file )
+        const {avatar} = req.body
+        if(!avatar){
+            return res.status(400).json({message: "No file uploaded"})
+        }
+        await ProfileService.uploadAvatar(userEmail, avatar )
         return res.json({ message: "Avatar uploaded successfully" })
     }
     catch (e) {
