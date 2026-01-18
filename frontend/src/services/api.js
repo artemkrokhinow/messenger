@@ -51,7 +51,7 @@ const api = {
     uploadAvatar: (email, file) => {
         return request(`/profile/${email}`, {
             method: 'POST',
-            body:JSON.stringify(file)
+            body:JSON.stringify({avatar: file})
         })},
     login:(email, password)=>{
         return request('/login',{

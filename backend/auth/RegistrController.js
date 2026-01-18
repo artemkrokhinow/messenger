@@ -5,9 +5,10 @@ import jwt from "jsonwebtoken";
 import {secret} from "../config.js"
 
 
-const generateAccessToken = (id) =>{
+const generateAccessToken = (id, email) =>{
     const payload = {
-        id
+        id, 
+        email
     }
     return jwt.sign(payload, secret, {expiresIn: "24h"})
 }
@@ -41,7 +42,7 @@ const RegistrController = {
             const CheckPassword = bcrypt.compareSync(password, user.password)
             if (!CheckPassword){
                  return res.status(400).json ({message: 'not registrated '  })
-            } const token = generateAccessToken(user._id)
+            } const token = generateAccessToken(user._id, user.email)
             return res.json({token})
         }catch(e){
             res.status(400).json({message: 'login error' })

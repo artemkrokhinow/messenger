@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import './App.css'  
-import Header from './Header.jsx'
+import Header from './header/Header.jsx'
 import { io } from 'socket.io-client';
 import {jwtDecode} from 'jwt-decode';
 import { socket } from './services/socket.js'; 
@@ -18,6 +18,8 @@ function MainPage({token, setToken}){
     const {messages, error: chatError, sendMessage} = useChat(token, selectedUser, currentUser)
     const error = usersError || chatError;
     const [NewMessageText, setNewMessageText] = useState('');
+    const decoded = jwtDecode(token);
+    const currentUserEmail = decoded.email;
     useEffect(()=>{
         
         socket.connect()
@@ -45,7 +47,7 @@ function MainPage({token, setToken}){
 
     return(
          <div className="app-container">
-            <Header />
+            <Header currentUser = {currentUser} currentUserEmail = {currentUserEmail}/>
                <div className="main-layout">
                   <aside className="sidebar">
                 <div className="sidebar-header">

@@ -20,10 +20,18 @@ const io = new Server(server, {
 })
 
 app.use(cors())
-app.use(express.json())
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/api', rrouter)
 app.use('/api', routerMessage)
 app.use('/api', routerProfile)
+app.use((req, res) => {
+    res.status(404).json({message: "route not found"})
+})
+app.use((err, req, res, next) => {
+    console.error('Global error handler:', err);
+    res.status(500).json({message: "Internal Server Error"})
+})
 
 let onlineUsers = new Map()
 io.on('connection', (socket)=>{

@@ -1,29 +1,30 @@
 import React, {useState, useEffect} from 'react'; 
 import { useNavigate, useParams } from 'react-router-dom';
 import './Profile.css'  
-import Header from '../Header.jsx'
-import {useProfile, uploadAvatar} from '../hooks/useProfile.js'
+import Header from '../header/Header.jsx'
+import {useProfile} from '../hooks/useProfile.js'
 import picture from "../picture.jpg"
 
 
 function ProfilePage(){
 const navigation = useNavigate();
 const {email} = useParams() 
-const {profile, error} = useProfile(email)
+const {profile, error, updateAvatar} = useProfile(email)
 const handleBack=()=>{
             navigation('/main')
 }
 
 const handleImg = async (event) => {
     const file = event.target.files[0];
-    await uploadAvatar(email, file);
-    this.render();
+    if (file) {
+    await updateAvatar(email, file);
+    }
 }    
 
 
     return(
          <div className="profile-container">
-            <Header />
+            <Header profile={profile}/>
                <div className="profile-layout">
                   <aside className="profile-sidebar">
                 <div className="profile-sidebar-header">

@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api.js';
 
+  const convertFileToBase64 = async (file) => {
+return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+             reader.readAsDataURL(file);
+
+        });
+    }
    export function useProfile (email){
 const [profile, setProfile] = useState(null);
 const [error, setError] = useState('');
@@ -19,23 +28,15 @@ const [error, setError] = useState('');
 
         }
         fetchProfile()
-},[email])
-return{profile, error}
-  }
-  const convertFileToBase64 = async (file) => {
-return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-             reader.readAsDataURL(file);
-
-        });
-    }
-  export const uploadAvatar = async (email, file) => {
+},[email]);
+    const updateAvatar = async (email, file) => {
     try {
         const base64String = await convertFileToBase64(file);
         await api.uploadAvatar(email, base64String);
+        setProfile(prev=>({...prev, avatar: base64String}));
     } catch (err) {
         console.error('Error uploading avatar:', err);
         throw err;
-    }}
+    }
+}
+return{profile ,updateAvatar, error };}
