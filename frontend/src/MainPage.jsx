@@ -18,8 +18,7 @@ function MainPage({token, setToken}){
     const {messages, error: chatError, sendMessage} = useChat(token, selectedUser, currentUser)
     const error = usersError || chatError;
     const [NewMessageText, setNewMessageText] = useState('');
-    const decoded = jwtDecode(token);
-    const currentUserEmail = decoded.email;
+
     useEffect(()=>{
         
         socket.connect()
@@ -47,7 +46,7 @@ function MainPage({token, setToken}){
 
     return(
          <div className="app-container">
-            <Header currentUser = {currentUser} currentUserEmail = {currentUserEmail}/>
+            <Header/>
                <div className="main-layout">
                   <aside className="sidebar">
                 <div className="sidebar-header">

@@ -6,7 +6,7 @@ import {useProfile} from '../hooks/useProfile.js'
 import picture from "../picture.jpg"
 
 
-function ProfilePage(){
+function ProfilePage({currentUserEmail}){
 const navigation = useNavigate();
 const {email} = useParams() 
 const {profile, error, updateAvatar} = useProfile(email)
@@ -17,7 +17,7 @@ const handleBack=()=>{
 const handleImg = async (event) => {
     const file = event.target.files[0];
     if (file) {
-    await updateAvatar(email, file);
+    await updateAvatar(currentUserEmail, file);
     }
 }    
 
@@ -43,7 +43,13 @@ const handleImg = async (event) => {
 
                          <h2><div id = 'avatarIMG' className="avatar-container">
                             {profile?.avatar !== '' ? (
+<div>
                                 <img src={profile?.avatar} alt="User Avatar" className="avatar-image" />
+                                <label className="change-avatar-btn">
+                Change Photo
+                <input type='file' onChange={handleImg} style={{ display: 'none' }} />
+            </label>
+</div>
                             ) : (
                                <div> 
                                     <input type='file' name='inputImg' onChange={handleImg}></input>
