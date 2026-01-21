@@ -1,6 +1,6 @@
 import React, {useMemo}  from 'react';
 import { Link, useNavigate} from 'react-router-dom';
-import iconApp from "../iconApp.png"
+import iconApp from "../pictures/iconApp.png"
 import {useProfile} from '../hooks/useProfile.js'
 import './header.css'; 
 import {jwtDecode} from 'jwt-decode';

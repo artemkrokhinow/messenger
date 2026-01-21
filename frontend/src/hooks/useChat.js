@@ -12,10 +12,15 @@ useEffect(()=>{
         }
         const fetchMessage = async ()=>{
             console.log(selectedUser,    selectedUser._id)
+        if(!selectedUser|| !selectedUser._id) return;
             try{
                 setError('')
                 const data = await api.getMessages(selectedUser._id)
-
+                data.forEach(msg=>{
+                    if(!msg.read && msg.receiverId === currentUserId){
+                        api.markMessageAsRead(msg._id)
+                    }
+                })
                 setMessages(data)
             }catch(err){
                 setError(err.message)

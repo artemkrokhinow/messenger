@@ -8,5 +8,6 @@ const routerMessage = new Router()
 
 routerMessage.post('/chat', authMiddleware, MessageController.create)
 routerMessage.get('/chat/:otherUserId', authMiddleware, MessageController.getConversation)
+routerMessage.post('/chat/:messageId', authMiddleware, MessageController.messageRead)
 
 export default routerMessage

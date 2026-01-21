@@ -7,6 +7,11 @@ import {jwtDecode} from 'jwt-decode';
 import { socket } from './services/socket.js'; 
 import {useChat} from './hooks/useChat.js'
 import {useUsers} from './hooks/useUsers.js'
+import {useProfile} from './hooks/useProfile.js'
+import NoNo from "./pictures/NoNo.png"
+import Contacts from './mainPage/Contacts.jsx';
+import eye0 from "./pictures/eye0.png"
+import eye1 from "./pictures/eye1.png"
 
  
 
@@ -18,7 +23,7 @@ function MainPage({token, setToken}){
     const {messages, error: chatError, sendMessage} = useChat(token, selectedUser, currentUser)
     const error = usersError || chatError;
     const [NewMessageText, setNewMessageText] = useState('');
-
+    const {profile} = useProfile(selectedUser?.email)
     useEffect(()=>{
         
         socket.connect()
@@ -54,12 +59,14 @@ function MainPage({token, setToken}){
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     <ul className="user-list">
                         {users.map(user => (
-                            <li key={user._id}>
-                                <button className={`user-button ${selectedUser?._id === user._id ? 'selected' : ''}`} onClick={() => setSelectedUser(user)}>
-                                    {user.name}
-                                </button>
-                            </li>
-                        ))}
+                        <Contacts
+                        key={user._id}
+                        user={user}
+                        onClick={setSelectedUser}
+                        isSelected={selectedUser?._id === user?._id} 
+                    />))}
+                        
+                    
                     </ul>
                     <button className="logout-button" onClick={handleLogout} style={{ marginTop: 'auto' }}>Logout</button>
                  
@@ -70,9 +77,11 @@ function MainPage({token, setToken}){
                     {selectedUser ? (
                        <>
                     <div className="chat-header">
-                            <h2>Chat with 
-                                <button className = 'alternative-button' onClick={handleProfile}>
-                                    <h2>{selectedUser?.name}</h2></button></h2>
+                            <h2>
+                                <button className = 'profile-button' onClick={handleProfile}>
+                                    <img src={profile?.avatar || NoNo} alt="User Avatar" className="avatar"/>
+                                    <span className="chat-name">{selectedUser?.name}</span>
+                                    </button></h2>
                             </div>
                             <div className = 'message-list'>
                                 {messages.map( msg => (
@@ -80,6 +89,7 @@ function MainPage({token, setToken}){
                                         key = {msg._id }
                                         className = {msg.senderId === currentUser ? 'message-sent' : 'message-recived'}>
                                             <p style={{margin: 0 }}>{msg.text}</p>
+                                            {msg.read ? (<img src={eye1} alt="read"className="loader"></img>) : (<img src={eye0} alt="read"className="loader"></img>)} 
                                 </div>
                                  ))}
                     </div>

@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './Profile.css'  
 import Header from '../header/Header.jsx'
 import {useProfile} from '../hooks/useProfile.js'
-import picture from "../picture.jpg"
 
 
 function ProfilePage({currentUserEmail}){

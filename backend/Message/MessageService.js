@@ -23,7 +23,15 @@ const MessageService = {
         }).sort({ createdAt: 1 })
         console.log('SERVICE',user1_ID , user2_ID,    'CHAT MESSAGES:', chatMessage)
         return chatMessage
-    }
+    },
+    async messageRead(messageId){
+        const updatedMessage = await Message.findByIdAndUpdate(
+             messageId,
+            {read: true},
+            {new: true}
+        )
+        return updatedMessage
+    }   
 }
 
 export default MessageService  

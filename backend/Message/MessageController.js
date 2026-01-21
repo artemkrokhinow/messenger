@@ -28,7 +28,17 @@ const MessageController = {
         } catch(e) {
             res.status(500).json({message: "controll getConversation error"})
         }
+    }, 
+    async messageRead(req, res){
+    try {
+        const messageId = req.params.messageId
+        const updatedMessage = await MessageService.messageRead(messageId)
+        return res.json(updatedMessage)  
+    }catch(e){
+        res.status(500).json({message: "controll messageRead error"})
     }
+}   
    }
 
+  
    export default MessageController 

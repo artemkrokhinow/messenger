@@ -47,6 +47,11 @@ const api = {
             method: 'POST',
             body:JSON.stringify(messageData)
         })
+    }, 
+    markMessageAsRead: (messageId)=>{
+        return request(`/chat/${messageId}`, {
+            method: 'POST'
+        })
     },
     uploadAvatar: (email, file) => {
         return request(`/profile/${email}`, {
