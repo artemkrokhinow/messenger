@@ -28,7 +28,9 @@ useEffect(()=>{
        } 
   
      const messageListener = function(newMessage){
-        if(newMessage.senderId === selectedUser._id){
+        console.log('SOCKET MESSAGE:', newMessage);
+        if(newMessage.senderId === selectedUser._id 
+        || newMessage.receiverId === selectedUser._id){
             setMessages(prev=>[...prev, newMessage])
         }
     };  fetchMessage()

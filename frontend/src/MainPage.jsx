@@ -24,8 +24,8 @@ function MainPage({token, setToken}){
     const error = usersError || chatError;
     const [NewMessageText, setNewMessageText] = useState('');
     const {profile} = useProfile(selectedUser?.email)
+    
     useEffect(()=>{
-        
         socket.connect()
          socket.emit('addUser',currentUser)
          return () => {
