@@ -13,6 +13,25 @@ html, body, #root {
     radial-gradient(at 100% 0%, hsl(0, 0%, 100%) 0, transparent 100%);
   overflow: hidden;
         }
+@media (max-width: 768px){
+.hidden-mobile{
+  display:none !important;
+}
+.sidebar, .chat-area {
+  width:100% !important;
+
+}
+.back-button-mobile {
+  display: block !important;
+  margin-right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+}}
+.back-button-mobile {
+  display: none;
+}
 .app-container {
   display: flex;
   flex-direction:column;
