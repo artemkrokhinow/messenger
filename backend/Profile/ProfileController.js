@@ -15,6 +15,10 @@ const ProfileController = {
 async uploadAvatar(req, res){
     try {
         const userEmail = req.params.selectedEmail
+        const myEmail = req.user.email
+        if(userEmail !== myEmail){
+            return res.status(403).json({message: "Forbidden"})
+        }
         const {avatar} = req.body
         if(!avatar){
             return res.status(400).json({message: "No file uploaded"})

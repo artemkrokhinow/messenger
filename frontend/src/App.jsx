@@ -5,7 +5,14 @@ import { Route, Routes, Link, Navigate, BrowserRouter} from 'react-router-dom';
 import MainPage from './MainPage.jsx';
 import ProfilePage from './Profile/ProfilePage.jsx';
 import {jwtDecode} from 'jwt-decode';
-
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+const queryClient = new QueryClient();
 function App() {
   const [ token ,setToken  ] = useState(localStorage.getItem('token'))
   const handleLogout = ()=>{
@@ -16,7 +23,10 @@ function App() {
   if (token) {
  currentUserEmail = jwtDecode(token).email;
   }
+
+
   return (
+    <QueryClientProvider client={queryClient}>
     <BrowserRouter>
     <div className="App">
       
@@ -31,8 +41,8 @@ function App() {
       {token ? (
         <>
         <Route path = '*' element={<Navigate to = '/main'/>}/>
-   <Route path = '/main' element= {<MainPage token={token} setToken={setToken} handleLogout={handleLogout} currentUserEmail = {currentUserEmail}/>} />
-    <Route path = '/profile/:email' element= {<ProfilePage token={token} currentUserEmail = {currentUserEmail}/> } />
+   <Route path = '/main' element= {<MainPage token={token} setToken={setToken} handleLogout={handleLogout} currentUserEmail = {currentUserEmail} />} />
+    <Route path = '/profile/:email' element= {<ProfilePage token={token} currentUserEmail = {currentUserEmail} /> } />
    </>
       ):(
         <>
@@ -47,6 +57,7 @@ function App() {
 
     </div>
     </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api.js';
+import {useQuery, useMutation, mutateAsync, useQueryClient} from '@tanstack/react-query'
+ 
 
-  const convertFileToBase64 = async (file) => {
+const convertFileToBase64 = async (file) => {
 return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result);
@@ -11,32 +13,22 @@ return new Promise((resolve, reject) => {
         });
     }
    export function useProfile (email){
-const [profile, setProfile] = useState(null);
-const [error, setError] = useState('');
- useEffect(()=>{
-    if( !email) return;
-    
-        const  fetchProfile = async ()=>{
-            try{
-                setError('')
-                const data = await api.getProfile(email)
-                setProfile(data)
-                console.log("User profile:", data);
-            }catch(err){
-                setError(err.message)
-            }
+    const queryClient = useQueryClient()
+const {data: profile = [], isLoading, error } = useQuery({
+    queryKey: ['profile', email],
+    queryFn: () => api.getProfile(email),
+    enabled: !!email,
+      });
 
-        }
-        fetchProfile()
-},[email]);
-    const updateAvatar = async (email, file) => {
-    try {
+
+        const {mutateAsync: editAvatarMutation, } = useMutation({
+    mutationFn: async (file)=>{
         const base64String = await convertFileToBase64(file);
-        await api.uploadAvatar(email, base64String);
-        setProfile(prev=>({...prev, avatar: base64String}));
-    } catch (err) {
-        console.error('Error uploading avatar:', err);
-        throw err;
+        api.uploadAvatar(email, base64String)
+    },
+    mutationKey: ['updateAvatar', email],
+    onSuccess: ()=>{
+        queryClient.invalidateQueries({queryKey: ['profile', email]}); 
+    }});
+      return{profile ,editAvatarMutation, error, isLoading }
     }
-}
-return{profile ,updateAvatar, error };}

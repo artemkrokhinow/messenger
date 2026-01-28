@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'; 
-
 import './App.css'  
 import Header from './header/Header.jsx'
 import { io } from 'socket.io-client';
@@ -8,12 +7,12 @@ import { socket } from './services/socket.js';
 import {useChat} from './hooks/useChat.js'
 import {useUsers} from './hooks/useUsers.js'
 import {useProfile} from './hooks/useProfile.js'
+import Contacts from './mainPage/contacts/Contacts.jsx';
+import Chat from './mainPage/chat/Chat.jsx';
 
-import Contacts from './mainPage/Contacts.jsx';
-import Chat from './mainPage/Chat.jsx';
-
-
+import {QueryClient} from '@tanstack/react-query'
  
+const queryClient = new QueryClient()
 
 function MainPage({token, setToken}){
 
@@ -23,7 +22,6 @@ function MainPage({token, setToken}){
     const {messages, error: chatError, sendMessage} = useChat(token, selectedUser, currentUser)
     const error = usersError || chatError;
     const [NewMessageText, setNewMessageText] = useState('');
-    const {profile} = useProfile(selectedUser?.email)
     
     useEffect(()=>{
         socket.connect()
@@ -40,7 +38,6 @@ function MainPage({token, setToken}){
     const handleBack = ()=>{
         setSelectedUser(null)
     }
-
     return(
          <div className="app-container">
             <Header/>
@@ -55,7 +52,7 @@ function MainPage({token, setToken}){
                         key={user._id}
                         user={user}
                         onClick={setSelectedUser}
-                        isSelected={selectedUser?._id === user?._id} 
+                        isSelected={selectedUser?._id === user?._id}
                     />))}
                       
                     
@@ -66,14 +63,13 @@ function MainPage({token, setToken}){
                 </aside>
                 <div className={`chat-area ${!selectedUser ? 'hidden-mobile' : ''}`}>
                  <Chat 
-                       selectedUser={selectedUser}
-                       currentUser={currentUser}
-                       messages={messages}
-                       sendMessage={sendMessage}
-                       profile={profile}
-                       NewMessageText={NewMessageText}
-                       setNewMessageText={setNewMessageText}
-                          handleBack={handleBack}
+                        selectedUser={selectedUser}
+                        currentUser={currentUser}
+                        messages={messages}
+                        sendMessage={sendMessage}
+                        NewMessageText={NewMessageText}
+                        setNewMessageText={setNewMessageText}
+                        handleBack={handleBack}
                        /> 
                        </div>
             </div>

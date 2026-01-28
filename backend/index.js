@@ -47,13 +47,11 @@ io.on('connection', (socket)=>{
     })
     socket.on('sendMessage',async ({senderId, receiverId, text}) =>{
         console.log(`New Message from ${senderId} to ${receiverId}`);
-        const receiverSocketId = onlineUsers.get(receiverId)
-        if(receiverSocketId && receiverSocketId.length > 0 ){
             const newMessage = await MessageController.create(senderId, receiverId , text)   
        receiverSocketId.forEach(socketId =>{
         io.to(socketId).emit('getMessage', newMessage)
        })
-        }
+        
     })
     console.log('io connect ')
     socket.on('disconnect', ()=>{

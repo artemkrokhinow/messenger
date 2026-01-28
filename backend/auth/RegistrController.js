@@ -51,7 +51,7 @@ const RegistrController = {
     },
     async getUsers(req,res){
         try {
-            let users = await User.find()
+            let users = await User.find().select
             return res.json(users)
         }catch(e){
             res.status(400).json({message: 'getUser error' })

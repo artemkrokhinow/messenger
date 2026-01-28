@@ -1,0 +1,31 @@
+.user-button {
+    display: flex;
+  padding: 12px 15px;
+  gap: 10px;
+    width: calc(100% - 20px); 
+  margin: 0 10px 8px 10px;
+  margin-bottom: 8px;
+  color: #222; 
+  cursor: pointer;
+  text-align: center;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.781); 
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);  
+  transition: all 0.1s ease;
+  font-size: 16px;
+}
+
+.user-button:hover {
+  background: rgba(255, 255, 255, 0.75); 
+  transform: translateY(-2px); 
+}
+
+
+.user-button.selected,
+.user-button:active {
+  background: rgba(255, 255, 255, 0.35); 
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); 
+  transform: translateY(2px); 
+  border-color: transparent;
+}

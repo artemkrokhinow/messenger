@@ -1,25 +1,14 @@
-import { useState, useEffect } from 'react';
+import {useQuery} from '@tanstack/react-query'
 import api from '../services/api.js';
 
    export function useUsers (token, currentUser){
-const [users, setUsers] = useState([]);
-const [error, setError] = useState('');
- useEffect(()=>{
-    if(!token) return;
+        const {data: users = [], isLoading, error } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => api.getContacts(),
+    enabled: !!token,
+    select: (data) => data.filter(user => user._id !== currentUser),
     
-        const  fetchUsers = async ()=>{
-            try{
-                setError('')
-                const data = await api.getContacts()
-                const filterData = data.filter(user =>user._id !== currentUser)
-                setUsers(filterData)
-            }catch(err){
-                setError(err.message)
-            }
-
-        }
-        fetchUsers()
-},[ token, currentUser])
-return{users, error}
-  }
- 
+      });
+return{users , error, isLoading};
+}
+  
