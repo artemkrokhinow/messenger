@@ -25,13 +25,14 @@ export default function Chat({selectedUser, currentUser, messages, sendMessage, 
     
     return(
    <main className="chat-area">
-                      <button className="back-button-mobile" onClick={handleBack}>
-                                 <img className= 'back-icon-mobile' src={iconBack} alt="Back Icon"/>
-                                </button>
+                      
                      
                     
                            {!selectedUser ? (<div className='notChoiceUser'>choice user</div>) : (
                             <><div className="chat-header">
+                                <button className="back-button-mobile" onClick={handleBack}>
+                                 <img className= 'back-icon-mobile' src={iconBack} alt="Back Icon"/>
+                                </button>
                     <button className='profile-button' onClick={handleProfile}>
                         <img src={profile?.avatar || NoNo} alt="User Avatar" className="avatar" />
                         <span className="chat-name">{selectedUser?.name}</span>
