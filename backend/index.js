@@ -33,45 +33,26 @@ app.use((err, req, res, next) => {
     res.status(500).json({message: "Internal Server Error"})
 })
 
-let onlineUsers = new Map()
-io.on('connection', (socket)=>{
-   
-    socket.on('addUser', (userId)=>{
-        let userSockets = onlineUsers.get(userId) || [];
-        if(!userSockets.includes(socket.id)){
-            userSockets.push(socket.id)
-        }
-         userSockets.push(socket.id)
-       onlineUsers.set(userId, userSockets)
-        console.log(`+ User ${userId} added. Online users now:`, onlineUsers);
+const onlineUsers = new Map();
+io.on('connection', (socket) => {
+    socket.on('addUser', (userId) => {
+        socket.userId = userId;
+        console.log(`User connected: ${userId}`);
+        onlineUsers.set(userId, socket.id)
+    });
+
+    socket.on('sendMessage', async (data) => {
+        io.to(onlineUsers.get(data.receiverId)).emit('getMessage', message);
+    });
+    socket.on('deleteMessage', async(data)=>{
+        io.to(onlineUsers.get(data.receiverId)).emit('deleteMessage', message);
     })
-    socket.on('sendMessage',async ({senderId, receiverId, text}) =>{
-        console.log(`New Message from ${senderId} to ${receiverId}`);
-            const newMessage = await MessageController.create(senderId, receiverId , text)   
-       receiverSocketId.forEach(socketId =>{
-        io.to(socketId).emit('getMessage', newMessage)
-       })
-        
-    })
-    console.log('io connect ')
-    socket.on('disconnect', ()=>{
-        let disconnectedUserId;
-        for (const [userId, sockets] of onlineUsers.entries()) {
-           
-            if (sockets.includes(socket.id)){
-            disconnectedUserId = userId
-            break;}
-            } if (disconnectedUserId){
-                const remainingSockets = onlineUsers.get(disconnectedUserId).filter(s => s !== socket.id)
-                if(remainingSockets.length > 0){
-                    onlineUsers.set(disconnectedUserId, remainingSockets)
-                } else onlineUsers.delete(disconnectedUserId)
-            
-                
-            }
-           
-    })
+socket.on('disconnect', () => {
+    onlineUsers.delete(socket.userId);
+    console.log('User disconnected');
+  });
 })
+
 
 async function startApp() {
     try {

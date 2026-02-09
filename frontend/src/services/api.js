@@ -39,10 +39,10 @@ const api = {
     getProfile: (email)=>{
         return request(`/profile/${email}`, {cache: 'no-cache'}) 
     },
-    getMessages: (selectedId)=>{
+    getConversation: (selectedId)=>{
         return request(`/chat/${selectedId}`, {cache: 'no-cache'}) 
     },
-    sendMessages: (messageData)=>{
+    sendMessage: (messageData)=>{
         return request(`/chat`, {
             method: 'POST',
             body:JSON.stringify(messageData)
@@ -53,6 +53,12 @@ const api = {
             method: 'POST'
         })
     },
+    deleteMessage: (messageId)=>{
+        return request(`/chat/${messageId}`, {
+            method: 'DELETE'
+        })
+    },
+
     uploadAvatar: (email, file) => {
         return request(`/profile/${email}`, {
             method: 'POST',

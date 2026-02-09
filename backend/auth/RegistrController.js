@@ -1,8 +1,9 @@
-
+import ProfileService from '../Profile/ProfileService.js'
 import User from '../models/userModels.js'
 import bcrypt from "bcryptjs";  
 import jwt from "jsonwebtoken";  
 import {secret} from "../config.js"
+import Profile from '../models/ProfileModels.js'
 
 
 const generateAccessToken = (id, email) =>{
@@ -25,10 +26,11 @@ const RegistrController = {
             const user = new User({email, password:  hashPassword, name})
             console.log('USER DATA', user)
             await user.save()
+            await ProfileService.getProfile(email)
             return res.json({message: `пользователь ${user.email}`})
         }catch(e){
             console.log(e)
-            res.status(400).json({message: 'registration error' })
+            res.status(400).json({message: 'registration error', error: e.message, stack: e.stack })
         }
         
     },
@@ -49,20 +51,16 @@ const RegistrController = {
         }
       
     },
-    async getUsers(req,res){
-        try {
-            let users = await User.find().select
-            return res.json(users)
-        }catch(e){
-            res.status(400).json({message: 'getUser error' })
-        }
-      
-    },
     async getContacts(req,res){
         try{
-            const currentUser = req.user.id
-            const contacts = await User.find({_id: {$ne: currentUser}})
-            res.json(contacts)
+            const data = await Profile.find({}).select('email name avatar user') 
+            const users = data.map(p=>({
+                    _id: p.user,
+                    name: p.name,
+                    email: p.email,
+                    avatar: p.avatar
+            }))
+            res.json(users)
         }catch(e) {
             console.log(e)
             res.status(500).json({message : 'Error receiving contacts'})

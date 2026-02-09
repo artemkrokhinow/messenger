@@ -1,28 +1,12 @@
-import React, {useMemo}  from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import iconApp from "../pictures/iconApp.png"
-import {useProfile} from '../hooks/useProfile.js'
 import './header.css'; 
-import {jwtDecode} from 'jwt-decode';
 
-function Header() {
-    const token = localStorage.getItem('token');
-    const myEmail = useMemo(() => {
-        if (!token) return null;
-        try{
-             return jwtDecode(token).email;
-        }catch (e) {
-            console.error('Invalid token:', e);
-            return null;
-        }
-       
-    }, [token]);
-    const {profile} = useProfile(myEmail)
-    const navigate = useNavigate();
-      console.log("EMAIL:", myEmail); 
+function Header({user}) {
+    const navigate = useNavigate(); 
     const handleProfile=()=>{
-        if(myEmail){
-            navigate(`/profile/${myEmail}`)
+        if(user){
+            navigate(`/profile/${user.email}`)
             console.log("Navigate to profile" );
     }
     }
@@ -34,7 +18,7 @@ function Header() {
                 </Link>
                 <button className='profile-btn' onClick={handleProfile} title="My Profile">
                     <img 
-                        src={profile?.avatar} 
+                        src={user?.avatar} 
                         alt="User Avatar" 
                         className="header-avatar"
                     />

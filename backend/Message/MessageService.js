@@ -1,17 +1,15 @@
-import mongoose from 'mongoose';
 import Message from '../models/messageModels.js'
 
 
 
 const MessageService = {
     async create(senderId, receiverId, text){
-        console.log('MESSAGE CREATE CREATE', senderId, receiverId)
-        console.log(`service create message from ${senderId} to ${receiverId}`)
         const message = await Message.create({
             senderId : senderId,
             receiverId : receiverId,
             text: text 
         })
+        
         return message
     },
     async getConversation(user1_ID, user2_ID ){
@@ -21,7 +19,7 @@ const MessageService = {
                     {senderId:  user2_ID , receiverId : user1_ID }
                 ]
         }).sort({ createdAt: 1 })
-        console.log('SERVICE',user1_ID , user2_ID,    'CHAT MESSAGES:', chatMessage)
+        console.log(chatMessage)
         return chatMessage
     },
     async messageRead(messageId){
@@ -31,6 +29,10 @@ const MessageService = {
             {new: true}
         )
         return updatedMessage
+    },
+    async deleteMessage(messageId){
+        const deleteMessage = await Message.findByIdAndDelete(messageId)
+        return(deleteMessage)
     }   
 }
 

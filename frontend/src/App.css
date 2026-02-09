@@ -228,8 +228,7 @@ border-radius:10px;
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    object-fit: cover;
-    margin-left: 10px;
+    object-fit: cover;  
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 .password-wrapper {

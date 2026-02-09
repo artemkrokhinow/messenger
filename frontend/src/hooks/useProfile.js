@@ -18,8 +18,7 @@ const {data: profile = [], isLoading, error } = useQuery({
     queryKey: ['profile', email],
     queryFn: () => api.getProfile(email),
     enabled: !!email,
-      });
-
+      })
 
         const {mutateAsync: editAvatarMutation, } = useMutation({
     mutationFn: async (file)=>{

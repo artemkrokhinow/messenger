@@ -1,7 +1,6 @@
-import MongoMessage from '../models/messageModels.js'
 import MessageService from './MessageService.js'
 const MessageController = {
-    async create(req, res){
+    async createMessage(req, res){
         try{
             const senderId = req.user.id 
             const {receiverId, text } = req.body
@@ -12,18 +11,13 @@ const MessageController = {
         } catch(e){
             res.status(500).json ({message: "fail on server "})
         }
-    }
-,
-
+    },
     async getConversation(req, res){
         try {
-            console.log('--- getConversation Controller ---');
-        console.log('Current User ID:', req.user.id);
-        console.log('Other User ID:', req.params.otherUserId);
+
             const currentId = req.user.id 
             const otherId = req.params.otherUserId
             const conversation = await MessageService.getConversation(currentId, otherId)
-            console.log(conversation)
             return res.json(conversation)
         } catch(e) {
             res.status(500).json({message: "controll getConversation error"})
@@ -36,6 +30,15 @@ const MessageController = {
         return res.json(updatedMessage)  
     }catch(e){
         res.status(500).json({message: "controll messageRead error"})
+    }
+},
+async deleteMessage(req, res){
+    try {
+        const messageId = req.params.messageId
+        await MessageService.deleteMessage(messageId)
+        return res.json({message: "Message deleted successfully"})  
+    }catch(e){
+        res.status(500).json({message: "controll deleteMessage error"})
     }
 }   
    }

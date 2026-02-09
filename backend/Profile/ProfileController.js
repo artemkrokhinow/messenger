@@ -1,4 +1,3 @@
-import getContacts from '../auth/RegistrController.js'
 import ProfileService from './ProfileService.js'
 
 const ProfileController = {
@@ -6,7 +5,6 @@ const ProfileController = {
         try {
             const user = req.params.selectedEmail
             const profile = await ProfileService.getProfile(user)
-            console.log(profile)
             return res.json(profile)
         } catch(e) {
             res.status(500).json({message: "controll getProfile error"})
