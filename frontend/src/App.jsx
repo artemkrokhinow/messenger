@@ -1,4 +1,4 @@
-import React, {useState} from 'react'; 
+import {useState} from 'react'; 
 import LoginPage from './LoginPage.jsx'
 import RegistrationPage from './RegistrationPage.jsx'
 import { Route, Routes, Link, Navigate, BrowserRouter} from 'react-router-dom';
@@ -6,9 +6,6 @@ import MainPage from './MainPage.jsx';
 import ProfilePage from './Profile/ProfilePage.jsx';
 import {jwtDecode} from 'jwt-decode';
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'

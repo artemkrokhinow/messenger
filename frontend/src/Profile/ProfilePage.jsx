@@ -1,4 +1,3 @@
-import React, {useState, useEffect} from 'react'; 
 import { useNavigate, useParams } from 'react-router-dom';
 import './Profile.css'  
 import Header from '../header/Header.jsx'
@@ -6,7 +5,7 @@ import {useProfile} from '../hooks/useProfile.js'
 import iconBack from '../pictures/iconBack.png'
 import NoNo from "../pictures/NoNo.png"
 
-function ProfilePage({currentUserEmail}) {
+function ProfilePage({currentUserEmail, user }) {
 const navigation = useNavigate();
 const {email} = useParams() 
 const {profile, error, updateAvatar} = useProfile(email)
@@ -24,7 +23,7 @@ const handleImg = async (event) => {
 
     return(  
     <div className="profile-container">
-            <Header profile={profile}/>
+            <Header/>
              
                <div className="profile-layout">
                   <aside className="profile-sidebar">

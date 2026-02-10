@@ -61,6 +61,7 @@ const RegistrController = {
                     avatar: p.avatar
             }))
             res.json(users)
+            
         }catch(e) {
             console.log(e)
             res.status(500).json({message : 'Error receiving contacts'})

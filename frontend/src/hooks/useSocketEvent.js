@@ -1,23 +1,22 @@
 import { socket } from '../services/socket.js';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import {useEffect} from 'react'
 
-export function useSocketEvent(currentUserId, selectedUserId) {
+export function useSocketEvent() {
     const queryClient = useQueryClient()
-    
-    useEffect(()=>{
-        const partnerId = ((message)=>{
-return(message.senderId === currentUserId ? message.receiverId : message.senderId)
-        })
-    socket.on('getMessage', (message) => {
-        queryClient.invalidateQueries({queryKey: ['messages', partnerId(message)]});
-    })
-    socket.on('deleteMessage', (message) => {
-        queryClient.invalidateQueries({queryKey: ['messages', message]});
-    })
-    return(()=>{
-    socket.off('getMessage', )
-    socket.off('deleteMessage')})
-    
-    },[])
-}
+useEffect(()=>{
+    const handleMessage = (data) =>{
+        queryClient.invalidateQueries({queryKey: ['messages', data.senderId]});
+    }
+    const handleOnlineUsers = (data) =>{
+        queryClient.invalidateQueries({queryKey: ['onlineUsers', data]});
+    }
+    socket.on('onlineUsers', handleOnlineUsers)
+    socket.on('getMessage', handleMessage)
+    return () => {
+        socket.off('getMessage', handleMessage)
+        socket.off('onlineUsers', handleOnlineUsers)
+    }
+
+},[])
+    }

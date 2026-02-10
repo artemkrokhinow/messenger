@@ -39,8 +39,8 @@ const api = {
     getProfile: (email)=>{
         return request(`/profile/${email}`, {cache: 'no-cache'}) 
     },
-    getConversation: (selectedId)=>{
-        return request(`/chat/${selectedId}`, {cache: 'no-cache'}) 
+    getConversation: (userId)=>{
+        return request(`/chat/${userId}`, {cache: 'no-cache'}) 
     },
     sendMessage: (messageData)=>{
         return request(`/chat`, {

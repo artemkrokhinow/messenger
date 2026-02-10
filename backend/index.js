@@ -6,7 +6,6 @@ import routerMessage from "./Message/routerMessage.js"
 import rrouter  from "./auth/routerRegistr.js"
 import { Server } from 'socket.io'
 import {createServer} from 'http'
-import MessageController from './Message/MessageController.js'
 import routerProfile from './Profile/ProfileRouter.js'
 
 const PORT = process.env.PORT || 5000
@@ -39,17 +38,17 @@ io.on('connection', (socket) => {
         socket.userId = userId;
         console.log(`User connected: ${userId}`);
         onlineUsers.set(userId, socket.id)
+        io.emit('onlineUsers', Array.from(onlineUsers.keys()));
     });
 
     socket.on('sendMessage', async (data) => {
-        io.to(onlineUsers.get(data.receiverId)).emit('getMessage', message);
+        io.to(onlineUsers.get(data.receiverId)).emit('getMessage', data);
     });
-    socket.on('deleteMessage', async(data)=>{
-        io.to(onlineUsers.get(data.receiverId)).emit('deleteMessage', message);
-    })
+
 socket.on('disconnect', () => {
     onlineUsers.delete(socket.userId);
     console.log('User disconnected');
+    io.emit('onlineUsers', Array.from(onlineUsers.keys()));
   });
 })
 

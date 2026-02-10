@@ -1,6 +1,5 @@
 import eye0 from "../../pictures/eye0.png"
 import eye1 from "../../pictures/eye1.png"
-import NoNo from "../../pictures/NoNo.png"
 import iconDelete from "../../pictures/iconDelete.png"
 import { useNavigate } from 'react-router-dom';
 import  './chat.css'
@@ -28,7 +27,7 @@ export default function Chat({ currentUser, messages, sendMessage, NewMessageTex
       const handleSendMessage =(event)=>{
         event.preventDefault();
         if (!NewMessageText.trim() === 0 ) return;
-        sendMessage(NewMessageText)
+        sendMessage({receiverId : selectedUser._id, text : NewMessageText, senderId : currentUser});
         setNewMessageText('')
     }
     const handleProfile=()=>{
@@ -36,9 +35,6 @@ export default function Chat({ currentUser, messages, sendMessage, NewMessageTex
             navigate(`/profile/${selectedUser.email}`)
         }
     }
-    console.log('CurrentUser ID:', currentUser);
-console.log('SenderID:', messages.senderId);
-console.log('messages', messages)
     return(
    <main className="chat-area">
                       

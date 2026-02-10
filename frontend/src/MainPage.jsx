@@ -13,13 +13,13 @@ import {useSocketEvent} from './hooks/useSocketEvent.js'
 const queryClient = new QueryClient()
 
 function MainPage({token, setToken}){
-
+    const [NewMessageText, setNewMessageText] = useState('');   
     const [selectedUser, setSelectedUser] = useState()
     const {id :currentUser} = (jwtDecode(token))
-    const {users, error: usersError} = useUsers(token, currentUser)
-    const {messages, sendMessage, deleteMessage} = useChat(token, selectedUser, currentUser)
+    const {usersOnline ,users, error: usersError} = useUsers(token, currentUser)
+    const {messages, sendMessage, deleteMessage} = useChat(selectedUser);
     const error = usersError ;
-    const [NewMessageText, setNewMessageText] = useState('');   
+    
     useSocketEvent(currentUser, selectedUser?._id)
     if(localStorage.getItem('token') === null) window.location.href = '/login'
     useEffect(()=>{
@@ -40,12 +40,16 @@ function MainPage({token, setToken}){
     const handleBack = ()=>{
         setSelectedUser(null)
     }
-
+const currentUserData = ()=>{
+    if(users && users.length > 0){
+    return users.find(user => String(user._id) === currentUser)
+    }else{console.log('users not found')}
+}
 
 
     return(
          <div className="app-container">
-            <Header user={users.find(user => user._id === currentUser)}/>
+            <Header user={currentUserData()}/>
                <div className="main-layout">
                   <aside className={`sidebar ${selectedUser ? 'hidden-mobile' : ''}`}>
                 <div className="sidebar-header">
@@ -57,7 +61,8 @@ function MainPage({token, setToken}){
                         key={user._id}
                         user={user}
                         onClick={setSelectedUser}
-                        isSelected={selectedUser?._id === user?._id}
+                        isSelected={selectedUser === user?._id}
+                        usersOnline={usersOnline}
                     />))}
                       
                     
@@ -73,9 +78,10 @@ function MainPage({token, setToken}){
                         NewMessageText={NewMessageText}
                         setNewMessageText={setNewMessageText}
                         handleBack={handleBack}
-                        selectedUser={users.find(user => user._id === selectedUser?._id)}
+                        selectedUser={users.find(user => String(user._id) === selectedUser)}
                         deleteMessage={deleteMessage}
                         currentUser={currentUser}
+                        usersOnline={usersOnline}
                        /> 
                        </div>
             </div>

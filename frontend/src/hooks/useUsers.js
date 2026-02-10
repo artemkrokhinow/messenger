@@ -1,4 +1,4 @@
-import {useQuery} from '@tanstack/react-query'
+import { useQuery} from '@tanstack/react-query'
 import api from '../services/api.js';
 
    export function useUsers (token){
@@ -8,6 +8,11 @@ import api from '../services/api.js';
     enabled: !!token,
     
       });
-return{users , error, isLoading};
+       const {data: onlineUsers = []} = useQuery({
+      queryKey: ['onlineUsers'],
+      queryFn: ()=> [],
+      staleTime: Infinity
+    })
+return{onlineUsers ,users , error, isLoading};
 }
   

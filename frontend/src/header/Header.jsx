@@ -4,12 +4,16 @@ import './header.css';
 
 function Header({user}) {
     const navigate = useNavigate(); 
-    const handleProfile=()=>{
+
+
+const handleProfile=()=>{
         if(user){
             navigate(`/profile/${user.email}`)
             console.log("Navigate to profile" );
     }
     }
+
+
     return(
         <header className="app-header">
             <nav className="header-nav">
