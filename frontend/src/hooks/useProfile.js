@@ -1,7 +1,7 @@
 
 import api from '../services/api.js';
 import {useQuery, useMutation, mutateAsync, useQueryClient} from '@tanstack/react-query'
- 
+ import { socket } from '../services/socket.js';
 
 const convertFileToBase64 = async (file) => {
 return new Promise((resolve, reject) => {
@@ -12,22 +12,34 @@ return new Promise((resolve, reject) => {
 
         });
     }
-   export function useProfile (email){
+   export function useProfile (SelectedId, userId){
     const queryClient = useQueryClient()
 const {data: profile = [], isLoading, error } = useQuery({
-    queryKey: ['profile', email],
-    queryFn: () => api.getProfile(email),
-    enabled: !!email,
+    queryKey: ['profile', SelectedId],
+    queryFn: () => api.getProfile(SelectedId),
+    enabled: !!SelectedId,
       })
 
-        const {mutateAsync: editAvatarMutation, } = useMutation({
-    mutationFn: async (file)=>{
+        const {mutateAsync: updateAvatar, } = useMutation({
+    mutationFn: async ({file, userId})=>{
         const base64String = await convertFileToBase64(file);
-        api.uploadAvatar(email, base64String)
+        console.log(base64String, userId)
+        return api.uploadAvatar(base64String, userId)
     },
-    mutationKey: ['updateAvatar', email],
-    onSuccess: ()=>{
-        queryClient.invalidateQueries({queryKey: ['profile', email]}); 
+    mutationKey: ['updateAvatar', userId],
+    onSuccess: (data)=>{
+        queryClient.invalidateQueries({queryKey: ['users', data.user]});
+        queryClient.setQueryData(['profile', SelectedId], (oldProfile) => {
+                if (!oldProfile) return undefined;
+                return { 
+                    ...oldProfile, 
+                    avatar: data.file 
+                };
+            });
+        socket.emit('updateAvatar', {
+            avatar: data.file,
+            user: userId
+        })
     }});
-      return{profile ,editAvatarMutation, error, isLoading }
+      return{profile ,updateAvatar, error, isLoading }
     }

@@ -28,6 +28,8 @@ function RegistrationPage() {
     setPasswordVisible(!passwordVisible);
   }
     return (
+         <> 
+The first server launch may take some time.
       <div className="auth-page" >
     <form className="auth-form" onSubmit={handleRegistr}>
       <h1>Registration</h1>  
@@ -44,6 +46,7 @@ function RegistrationPage() {
           <Link className = 'alternative-button' to='/Login'>I have an account</Link>
     </form>
     </div>
+    </>
     );
 }
 

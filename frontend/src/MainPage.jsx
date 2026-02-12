@@ -54,7 +54,7 @@ const currentUserData = ()=>{
                   <aside className={`sidebar ${selectedUser ? 'hidden-mobile' : ''}`}>
                 <div className="sidebar-header">
                     <h2>Contacts</h2>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {error && <p style={{ color: 'red' }}>{error.message}</p>}
                     <ul className="user-list">
                         {users.filter(user => user._id !== currentUser).map(user => (
                         <Contacts

@@ -2,13 +2,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './Profile.css'  
 import Header from '../header/Header.jsx'
 import {useProfile} from '../hooks/useProfile.js'
+import {useUsers} from '../hooks/useUsers.js'
 import iconBack from '../pictures/iconBack.png'
 import NoNo from "../pictures/NoNo.png"
 
-function ProfilePage({currentUserEmail, user }) {
+function ProfilePage({token ,currentUserEmail, currentUserId}) {
 const navigation = useNavigate();
 const {email} = useParams() 
-const {profile, error, updateAvatar} = useProfile(email)
+const {users} = useUsers(token)
+const viewedUser = users?.find(user => String(user.email) === String(email))
+const {profile, error, updateAvatar} = useProfile(viewedUser?._id, currentUserId)
+
+const currentUserData = users?.find(u => String(u._id) === String(currentUserId))
+
 const handleBack=()=>{
             navigation('/main')
 }
@@ -16,14 +22,14 @@ const handleBack=()=>{
 const handleImg = async (event) => {
     const file = event.target.files[0];
     if (file) {
-    await updateAvatar(currentUserEmail, file);
+    await updateAvatar({file : file , userId : currentUserId});
     }
 }    
 
 
     return(  
     <div className="profile-container">
-            <Header/>
+            <Header user={currentUserData}/>
              
                <div className="profile-layout">
                   <aside className="profile-sidebar">
@@ -38,11 +44,11 @@ const handleImg = async (event) => {
                 <div>
                     <h2><div id = 'avatarIMG' className="avatar-container">
                        
-                            {profile.email === currentUserEmail  ? (
+                            {profile.user === currentUserId  ? (
 <div>
     <label className="change-avatar-btn">
                                 <img src={profile?.avatar|| NoNo} alt="User Avatar" className="avatar-image" />
-                                {profile.email === currentUserEmail ?(<input type='file' onChange={handleImg} style={{ display: 'none' }} /> ) : null}
+                                {profile.user === currentUserId ?(<input type='file' onChange={handleImg} style={{ display: 'none' }} /> ) : null}
                 
             </label>
 </div>

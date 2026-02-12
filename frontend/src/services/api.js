@@ -36,8 +36,9 @@ const api = {
     getContacts: ()=>{
        return  request('/contacts')
     }, 
-    getProfile: (email)=>{
-        return request(`/profile/${email}`, {cache: 'no-cache'}) 
+    getProfile: (userId)=>{
+        console.log(userId)
+        return request(`/profile/${userId}`, {cache: 'no-cache'}) 
     },
     getConversation: (userId)=>{
         return request(`/chat/${userId}`, {cache: 'no-cache'}) 
@@ -59,10 +60,10 @@ const api = {
         })
     },
 
-    uploadAvatar: (email, file) => {
-        return request(`/profile/${email}`, {
+    uploadAvatar: (file, userId) => {
+        return request(`/profile/${userId}`, {
             method: 'POST',
-            body:JSON.stringify({avatar: file})
+            body:JSON.stringify({file : file})
         })},
     login:(email, password)=>{
         return request('/login',{

@@ -17,8 +17,10 @@ function App() {
     setToken(null)
   }
   let currentUserEmail = null;
+  let currentUserId = null
   if (token) {
  currentUserEmail = jwtDecode(token).email;
+ currentUserId = jwtDecode(token).id;
   }
 
 
@@ -39,7 +41,7 @@ function App() {
         <>
         <Route path = '*' element={<Navigate to = '/main'/>}/>
    <Route path = '/main' element= {<MainPage token={token} setToken={setToken} handleLogout={handleLogout} currentUserEmail = {currentUserEmail} />} />
-    <Route path = '/profile/:email' element= {<ProfilePage token={token} currentUserEmail = {currentUserEmail} /> } />
+    <Route path = '/profile/:email' element= {<ProfilePage token = {token} currentUserId = {currentUserId} /> } />
    </>
       ):(
         <>

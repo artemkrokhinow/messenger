@@ -41,6 +41,8 @@ finally {
     setPasswordVisible(!passwordVisible);
   }
   return (
+    <> 
+The first server launch may take some time.
     <div className="auth-page" >
     <form className="auth-form" onSubmit={handleLogin}>
    
@@ -59,6 +61,7 @@ finally {
     </form>
     {loading && <div className="loader">Loading...</div>}
     </div>
+    </>
   );
 }
 

@@ -19,7 +19,6 @@ const MessageService = {
                     {senderId:  user2_ID , receiverId : user1_ID }
                 ]
         }).sort({ createdAt: 1 })
-        console.log(chatMessage)
         return chatMessage
     },
     async messageRead(messageId){

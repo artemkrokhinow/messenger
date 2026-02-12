@@ -3,7 +3,8 @@ import ProfileService from './ProfileService.js'
 const ProfileController = {
     async getProfile(req, res){
         try {
-            const user = req.params.selectedEmail
+            const user = req.params.userId
+            console.log(user)
             const profile = await ProfileService.getProfile(user)
             return res.json(profile)
         } catch(e) {
@@ -12,20 +13,19 @@ const ProfileController = {
     },
 async uploadAvatar(req, res){
     try {
-        const userEmail = req.params.selectedEmail
-        const myEmail = req.user.email
-        if(userEmail !== myEmail){
-            return res.status(403).json({message: "Forbidden"})
-        }
-        const {avatar} = req.body
-        if(!avatar){
+        const userId = req.params.userId
+        const {file} = req.body
+        if(!file){
             return res.status(400).json({message: "No file uploaded"})
         }
-        await ProfileService.uploadAvatar(userEmail, avatar )
-        return res.json({ message: "Avatar uploaded successfully" })
+        if(!userId){
+            return res.status(400).json({message: "No user selected"})
+        }
+        await ProfileService.uploadAvatar(file, userId )
+        return res.json({ message: "Avatar uploaded successfully", file: file })
     }
     catch (e) {
-        res.status(500).json({ message: "controll uploadAvatar error" })
+        res.status(500).json({ message: "controll uploadAvatar error", error: e.message })
     }
 }
 }
