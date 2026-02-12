@@ -23,7 +23,6 @@ const {data: profile = [], isLoading, error } = useQuery({
         const {mutateAsync: updateAvatar, } = useMutation({
     mutationFn: async ({file, userId})=>{
         const base64String = await convertFileToBase64(file);
-        console.log(base64String, userId)
         return api.uploadAvatar(base64String, userId)
     },
     mutationKey: ['updateAvatar', userId],

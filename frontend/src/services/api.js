@@ -37,7 +37,6 @@ const api = {
        return  request('/contacts')
     }, 
     getProfile: (userId)=>{
-        console.log(userId)
         return request(`/profile/${userId}`, {cache: 'no-cache'}) 
     },
     getConversation: (userId)=>{

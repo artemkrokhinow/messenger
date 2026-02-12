@@ -43,7 +43,7 @@ function MainPage({token, setToken}){
 const currentUserData = ()=>{
     if(users && users.length > 0){
     return users.find(user => String(user._id) === currentUser)
-    }else{console.log('users not found')}
+    }
 }
 
 

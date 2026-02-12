@@ -47,14 +47,14 @@ const handleImg = async (event) => {
                             {profile.user === currentUserId  ? (
 <div>
     <label className="change-avatar-btn">
-                                <img src={profile?.avatar|| NoNo} alt="User Avatar" className="avatar-image" />
+                                <img key={profile?.avatar} src={profile?.avatar|| NoNo} alt="User Avatar" className="avatar-image" />
                                 {profile.user === currentUserId ?(<input type='file' onChange={handleImg} style={{ display: 'none' }} /> ) : null}
                 
             </label>
 </div>
                             ) : (
                                <div> 
-                                     <img src={profile?.avatar|| NoNo} alt="User Avatar" className="avatar-image" />
+                                     <img key={profile?.avatar} src={profile?.avatar|| NoNo} alt="User Avatar" className="avatar-image" />
                                </div>
                                 
                             )}
