@@ -26,7 +26,7 @@ const RegistrController = {
             const user = new User({email, password:  hashPassword, name})
             console.log('USER DATA', user)
             await user.save()
-            await ProfileService.getProfile(email)
+            await ProfileService.getProfile(user._id)
             return res.json({message: `пользователь ${user.email}`})
         }catch(e){
             console.log(e)

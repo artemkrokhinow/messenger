@@ -27,7 +27,14 @@ const {data: profile = [], isLoading, error } = useQuery({
     },
     mutationKey: ['updateAvatar', userId],
     onSuccess: (data)=>{
-        queryClient.invalidateQueries({queryKey: ['users', data.user]});
+        queryClient.setQueryData(['users'], (oldUsers) => {
+            if (!oldUsers) return [];
+            return oldUsers.map((user) => (
+                String(user._id) === String(data.user)
+                    ? { ...user, avatar: data.file }
+                    : user
+            ));
+        });
         queryClient.setQueryData(['profile', SelectedId], (oldProfile) => {
                 if (!oldProfile) return undefined;
                 return { 
@@ -35,6 +42,9 @@ const {data: profile = [], isLoading, error } = useQuery({
                     avatar: data.file 
                 };
             });
+            if (!socket.connected) {
+            socket.connect();
+        }
         socket.emit('updateAvatar', {
             avatar: data.file,
             user: userId

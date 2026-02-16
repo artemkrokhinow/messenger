@@ -15,7 +15,7 @@ useEffect(()=>{
     const handleUpdateAvatar = (data) =>{
             queryClient.setQueriesData({queryKey: ['profile']}, (oldProfile) => {
                 if (!oldProfile) return undefined;
-                if(String(oldProfile._id) !== String(data.user)) return oldProfile
+                if(String(oldProfile.user) !== String(data.user)) return oldProfile
                 return { ...oldProfile, avatar: data.avatar };
             });
             queryClient.setQueriesData({queryKey: ['users']}, (oldUser) => {
