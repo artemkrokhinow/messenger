@@ -17,7 +17,7 @@ function App() {
     setToken(null)
   }
   let currentUserEmail = null;
-  let currentUserId = null
+  let currentUserId = null;
   if (token) {
  currentUserEmail = jwtDecode(token).email;
  currentUserId = jwtDecode(token).id;

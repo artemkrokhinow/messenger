@@ -19,14 +19,17 @@ const MessageService = {
                     {senderId:  user2_ID , receiverId : user1_ID }
                 ]
         }).sort({ createdAt: 1 })
+
         return chatMessage
     },
     async messageRead(messageId){
+        if(!messageId)return 
         const updatedMessage = await Message.findByIdAndUpdate(
              messageId,
             {read: true},
             {new: true}
         )
+        if(!updatedMessage)return
         return updatedMessage
     },
     async deleteMessage(messageId){

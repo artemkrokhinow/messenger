@@ -18,7 +18,6 @@ const ProfileService = {
                 birthday: null,
                 lastSeen: Date.now()
             })
-            console.log(newProfile)
             await newProfile.save()
             return newProfile
         }

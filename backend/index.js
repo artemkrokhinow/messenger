@@ -47,6 +47,12 @@ io.on('connection', (socket) => {
     socket.on('updateAvatar', async (data) => {
         socket.broadcast.emit('updateAvatar', data);
     });
+    socket.on('readMessage', async (data) => {
+        io.to(onlineUsers.get(data.senderId)).emit('readMessage', data);
+    })
+    socket.on('deleteMessage', async (data) => {
+        io.to(onlineUsers.get(data.receiverId)).emit('deleteMessage', data);
+    })
 
 socket.on('disconnect', () => {
     onlineUsers.delete(socket.userId);

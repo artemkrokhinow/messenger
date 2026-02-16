@@ -4,7 +4,6 @@ const MessageController = {
         try{
             const senderId = req.user.id 
             const {receiverId, text} = req.body
-            console.log(`Conroller аccepted request to create message`, senderId , 'RECEIVER + TEXT' , receiverId , text )
             const newMessage = await MessageService.create(senderId, receiverId , text)
             res.status(201).json(newMessage)
 
@@ -35,8 +34,7 @@ const MessageController = {
 async deleteMessage(req, res){
     try {
         const messageId = req.params.messageId
-        await MessageService.deleteMessage(messageId)
-        return res.json({message: "Message deleted successfully"})  
+        return res.json( await MessageService.deleteMessage(messageId))  
     }catch(e){
         res.status(500).json({message: "controll deleteMessage error"})
     }

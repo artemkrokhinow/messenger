@@ -4,7 +4,6 @@ const ProfileController = {
     async getProfile(req, res){
         try {
             const user = req.params.userId
-            console.log(user)
             const profile = await ProfileService.getProfile(user)
             return res.json(profile)
         } catch(e) {

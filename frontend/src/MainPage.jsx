@@ -7,17 +7,17 @@ import {useChat} from './hooks/useChat.js'
 import {useUsers} from './hooks/useUsers.js'
 import Contacts from './mainPage/contacts/Contacts.jsx';
 import Chat from './mainPage/chat/Chat.jsx';
-import {QueryClient} from '@tanstack/react-query'
+import {useQueryClient} from '@tanstack/react-query'
 import {useSocketEvent} from './hooks/useSocketEvent.js'
  
-const queryClient = new QueryClient()
 
 function MainPage({token, setToken}){
+    const queryClient = useQueryClient();
     const [NewMessageText, setNewMessageText] = useState('');   
     const [selectedUser, setSelectedUser] = useState()
     const {id :currentUser} = (jwtDecode(token))
     const {usersOnline ,users, error: usersError} = useUsers(token, currentUser)
-    const {messages, sendMessage, deleteMessage} = useChat(selectedUser);
+    const {messages, sendMessage, deleteMessage, readMessage} = useChat(selectedUser);
     const error = usersError ;
     
     useSocketEvent(currentUser, selectedUser?._id)
@@ -72,7 +72,7 @@ const currentUserData = ()=>{
                 </div>
                 </aside>
                 <div className={`chat-area ${!selectedUser ? 'hidden-mobile' : ''}`}>
-                 <Chat 
+                 <Chat                     
                         messages={messages}
                         sendMessage={sendMessage}
                         NewMessageText={NewMessageText}
@@ -82,6 +82,7 @@ const currentUserData = ()=>{
                         deleteMessage={deleteMessage}
                         currentUser={currentUser}
                         usersOnline={usersOnline}
+                        readMessage={readMessage}
                        /> 
                        </div>
             </div>

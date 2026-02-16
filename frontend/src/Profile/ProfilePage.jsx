@@ -5,8 +5,10 @@ import {useProfile} from '../hooks/useProfile.js'
 import {useUsers} from '../hooks/useUsers.js'
 import iconBack from '../pictures/iconBack.png'
 import NoNo from "../pictures/NoNo.png"
+import {useQueryClient} from '@tanstack/react-query'
 
 function ProfilePage({token ,currentUserEmail, currentUserId}) {
+const queryClient = useQueryClient()
 const navigation = useNavigate();
 const {email} = useParams() 
 const {users} = useUsers(token)
