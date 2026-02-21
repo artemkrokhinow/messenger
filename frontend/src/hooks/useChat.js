@@ -1,7 +1,7 @@
 import api from '../services/api.js';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { socket } from '../services/socket.js';
-export function useChat(selectedUser){
+export function useChat(selectedUser, currentUser){
     const queryClient = useQueryClient()
     const chatId = selectedUser?._id || selectedUser;
     const {mutateAsync: sendMessageMutation, } = useMutation({
@@ -11,8 +11,13 @@ export function useChat(selectedUser){
         onSuccess: (data)=>{
             socket.emit('sendMessage', data);
             queryClient.invalidateQueries({queryKey: ['messages', chatId]});
-        }
-    }); 
+             queryClient.setQueriesData({queryKey: ['lastMessages']}, (messages) => {
+            if (!messages) return [];
+            const lastMessages = messages.filter(msg => String(msg._id) !== String(data._id));
+            return [...lastMessages, data];
+    }     )
+            }
+        });
     const {mutateAsync: readMessageMutation, } = useMutation({
         mutationFn: async (messageId)=>{
             return( api.markMessageAsRead(messageId))
@@ -49,6 +54,16 @@ export function useChat(selectedUser){
         enabled: !!chatId
 
     }); 
+    const {data: lastMessages} = useQuery({
+        queryKey: ['lastMessages'],
+        queryFn: () => api.getLastMessages(),
+        onSuccess: (data)=>{
+            socket.emit('lastMessages', data)
 
-    return{messages, sendMessage: sendMessageMutation, readMessage: readMessageMutation , deleteMessage: deleteMessageMutation}
+        },
+        enabled: !!currentUser,
+      });
+
+
+    return{messages, sendMessage: sendMessageMutation, readMessage: readMessageMutation , deleteMessage: deleteMessageMutation, lastMessages};
 }

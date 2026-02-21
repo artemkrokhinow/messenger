@@ -8,6 +8,11 @@ export function useSocketEvent() {
 useEffect(()=>{
     const handleMessage = (data) =>{
         queryClient.invalidateQueries({queryKey: ['messages', data.senderId]});
+        queryClient.setQueriesData({queryKey: ['lastMessages']}, (messages) => {
+            if (!messages) return [];
+            const lastMessages = messages.filter(msg => String(msg._id) !== String(data._id));
+            return [...lastMessages, data];
+    }     );
     }
     const handleOnlineUsers = (data) =>{
         queryClient.invalidateQueries({queryKey: ['onlineUsers', data]});

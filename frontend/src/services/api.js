@@ -75,6 +75,9 @@ const api = {
             method: 'POST',
             body:JSON.stringify({email, password, name})
         })
+    },
+    getLastMessages: ()=>{
+        return request(`/chat`, {cache: 'no-cache'})
     }
 
 };

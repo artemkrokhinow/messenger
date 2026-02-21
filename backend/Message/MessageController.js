@@ -38,7 +38,14 @@ async deleteMessage(req, res){
     }catch(e){
         res.status(500).json({message: "controll deleteMessage error"})
     }
-}   
+},
+async getLastMessages(req, res){
+    try{
+        const currentUser = req.user.id
+        return res.json(await MessageService.getLastMessages(currentUser))
+    } catch(e){
+        res.status(500).json({message: "controll getLastMessages error"})
+} }
    }
 
   

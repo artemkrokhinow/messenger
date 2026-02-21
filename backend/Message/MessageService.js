@@ -1,4 +1,6 @@
+import mongoose, {Types} from 'mongoose'
 import Message from '../models/messageModels.js'
+
 
 
 
@@ -35,7 +37,47 @@ const MessageService = {
     async deleteMessage(messageId){
         const deleteMessage = await Message.findByIdAndDelete(messageId)
         return(deleteMessage)
-    }   
+    },
+    async getLastMessages(currentUser){
+        try{
+            if (!Types.ObjectId.isValid(currentUser)) {
+                console.error("Id not valid:", currentUser);
+                return [];
+            }
+
+            const user = new Types.ObjectId(currentUser)
+            
+            const result = await Message.aggregate([
+                {$match: {
+                    $or: [
+                    { senderId: user },
+                    { receiverId: user }
+                    ]
+                }},
+                {$sort: { createdAt: -1 
+                }},
+                {$group: {
+                    _id: {
+                      $cond: [ { $eq: ["$senderId", user] }, "$receiverId", "$senderId" ]
+                    },
+                lastMessage: { $first: "$$ROOT" }
+                }},
+                {$project: {
+                    _id: "$lastMessage._id",
+                    senderId: "$lastMessage.senderId",
+                    receiverId: "$lastMessage.receiverId",
+                    text: "$lastMessage.text",
+                    createdAt: "$lastMessage.createdAt",
+                    read: "$lastMessage.read",
+                }},
+                {$sort: { createdAt: -1 }}
+            ])
+        return (result || [])
+        }catch(e){
+            console.error(e)
+            return []
+        }
+    }
 }
 
 export default MessageService  

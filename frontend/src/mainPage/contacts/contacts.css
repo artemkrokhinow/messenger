@@ -1,6 +1,6 @@
 .user-button {
     display: flex;
-  padding: 12px 15px;
+  padding: 6px 10px;
   gap: 10px;
     width: calc(100% - 20px); 
   margin: 0 10px 8px 10px;
@@ -28,4 +28,41 @@
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); 
   transform: translateY(2px); 
   border-color: transparent;
+}
+.status-indicator {
+display: flex;
+  flex-direction: row;
+  align-items: center;
+    width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 10px;
+      background-color: green;
+      position: relative;
+    }
+.last-message{
+  font-size: 14px;
+  color: #8a8a8a;
+  margin-top: 4px;
+}
+.text-container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 4px;
+}
+.green-dot {
+  height: 15px;                
+  width: 15px;
+  background-color: #4CAF50;   
+  border-radius: 50%;         
+  display: inline-block;       
+}
+.user-name{
+  font-weight: bold;
+  margin : 0px;
+  padding: 0px;
+  
+
 }

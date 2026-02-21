@@ -16,8 +16,8 @@ function MainPage({token, setToken}){
     const [NewMessageText, setNewMessageText] = useState('');   
     const [selectedUser, setSelectedUser] = useState()
     const {id :currentUser} = (jwtDecode(token))
-    const {usersOnline ,users, error: usersError} = useUsers(token, currentUser)
-    const {messages, sendMessage, deleteMessage, readMessage} = useChat(selectedUser);
+    const {usersOnline ,users,error: usersError} = useUsers(token)
+    const {messages, sendMessage, deleteMessage, readMessage, lastMessages} = useChat(selectedUser, currentUser);
     const error = usersError ;
     
     useSocketEvent(currentUser, selectedUser?._id)
@@ -31,7 +31,8 @@ function MainPage({token, setToken}){
         }
     }, [currentUser])
     
-         
+    console.log(lastMessages)
+    console.log(messages)
    
     const handleLogout = ()=>{
         setToken(null)
@@ -60,6 +61,7 @@ const currentUserData = ()=>{
                         <Contacts
                         key={user._id}
                         user={user}
+                        lastMessages={lastMessages}
                         onClick={setSelectedUser}
                         isSelected={selectedUser === user?._id}
                         usersOnline={usersOnline}
@@ -68,7 +70,6 @@ const currentUserData = ()=>{
                     
                     </ul>
                     <button className="logout-button" onClick={handleLogout} style={{ marginTop: 'auto' }}>Logout</button>
-                 
                 </div>
                 </aside>
                 <div className={`chat-area ${!selectedUser ? 'hidden-mobile' : ''}`}>

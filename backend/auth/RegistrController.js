@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";  
 import {secret} from "../config.js"
 import Profile from '../models/ProfileModels.js'
+import messageService from '../Message/MessageService.js'
 
 
 const generateAccessToken = (id, email) =>{
@@ -60,6 +61,7 @@ const RegistrController = {
                     email: p.email,
                     avatar: p.avatar
             }))
+            messageService.getLastMessages(users.map(u => u._id))
             res.json(users)
             
         }catch(e) {

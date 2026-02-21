@@ -12,7 +12,8 @@ import api from '../services/api.js';
       queryKey: ['onlineUsers'],
       queryFn: ()=> [],
       staleTime: Infinity
-    })
-return{onlineUsers ,users , error, isLoading};
+    });
+      
+return{onlineUsers ,users, error, isLoading};
 }
   

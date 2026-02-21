@@ -43,6 +43,7 @@ io.on('connection', (socket) => {
 
     socket.on('sendMessage', async (data) => {
         io.to(onlineUsers.get(data.receiverId)).emit('getMessage', data);
+        io.to(onlineUsers.get(data.senderId)).emit('lastMessages', data);
     });
     socket.on('updateAvatar', async (data) => {
         socket.broadcast.emit('updateAvatar', data);
