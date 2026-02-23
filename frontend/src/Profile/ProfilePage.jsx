@@ -27,7 +27,7 @@ const handleImg = async (event) => {
     await updateAvatar({file : file , userId : currentUserId});
     }
 }    
-
+console.log(profile)
 
     return(  
     <div className="profile-container">

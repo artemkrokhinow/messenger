@@ -20,8 +20,8 @@ async uploadAvatar(req, res){
         if(!userId){
             return res.status(400).json({message: "No user selected"})
         }
-        await ProfileService.uploadAvatar(file, userId )
-        return res.json({ message: "Avatar uploaded successfully", file: file })
+        const updatedAvatar = await ProfileService.uploadAvatar(file, userId )
+        return res.json(updatedAvatar)
     }
     catch (e) {
         res.status(500).json({ message: "controll uploadAvatar error", error: e.message })

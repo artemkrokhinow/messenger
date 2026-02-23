@@ -26,27 +26,22 @@ const {data: profile = [], isLoading, error } = useQuery({
         return api.uploadAvatar(base64String, userId)
     },
     mutationKey: ['updateAvatar', userId],
-    onSuccess: (data)=>{
-        queryClient.setQueryData(['users'], (oldUsers) => {
-            if (!oldUsers) return [];
-            return oldUsers.map((user) => (
-                String(user._id) === String(data.user)
-                    ? { ...user, avatar: data.file }
-                    : user
-            ));
-        });
-        queryClient.setQueryData(['profile', SelectedId], (oldProfile) => {
+    onSuccess: (data)=>{        
+             queryClient.setQueryData(['profile', String(data.user)], (oldProfile) => {
                 if (!oldProfile) return undefined;
-                return { 
-                    ...oldProfile, 
-                    avatar: data.file 
-                };
+                if (String(oldProfile.user) !== String(data.user)) return oldProfile
+                return { ...oldProfile, avatar: data.avatar };
             });
+            queryClient.setQueriesData({queryKey: ['users']}, (oldUser) => {
+                if (!oldUser) return undefined;
+                return oldUser.map(u => {if (String(u._id) !== String(data.user)) return u  
+                return { ...u, avatar: data.avatar };
+            })});
             if (!socket.connected) {
             socket.connect();
         }
         socket.emit('updateAvatar', {
-            avatar: data.file,
+            avatar: data.avatar,
             user: userId
         })
     }});

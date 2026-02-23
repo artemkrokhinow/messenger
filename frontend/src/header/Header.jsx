@@ -9,7 +9,6 @@ function Header({user}) {
 const handleProfile=()=>{
         if(user){
             navigate(`/profile/${user.email}`)
-            console.log("Navigate to profile" );
     }
     }
 

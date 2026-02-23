@@ -30,9 +30,6 @@ function MainPage({token, setToken}){
             socket.disconnect();
         }
     }, [currentUser])
-    
-    console.log(lastMessages)
-   
     const handleLogout = ()=>{
         setToken(null)
         localStorage.removeItem('token')
@@ -45,7 +42,7 @@ const currentUserData = ()=>{
     return users.find(user => String(user._id) === currentUser)
     }
 }
-
+console.log(users)
 
     return(
          <div className="app-container">
