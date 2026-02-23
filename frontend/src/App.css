@@ -261,15 +261,15 @@ border-radius:10px;
 }
 }
 .green-dot {
-  height: 5px;                
-  width: 5px;
+  height: 10px;                
+  width: 10px;
   background-color: #4CAF50;   
   border-radius: 50%;         
   display: inline-block;       
 }
 .gray-dot {
-  height: 5px;                
-  width: 5px;
+  height: 10px;                
+  width: 10px;
   background-color: #A9A9A9;   
   border-radius: 50%;         
   display: inline-block;       

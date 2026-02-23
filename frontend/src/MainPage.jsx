@@ -16,7 +16,7 @@ function MainPage({token, setToken}){
     const [NewMessageText, setNewMessageText] = useState('');   
     const [selectedUser, setSelectedUser] = useState()
     const {id :currentUser} = (jwtDecode(token))
-    const {usersOnline ,users,error: usersError} = useUsers(token)
+    const {onlineUsers ,users,error: usersError} = useUsers(token)
     const {messages, sendMessage, deleteMessage, readMessage, lastMessages} = useChat(selectedUser, currentUser);
     const error = usersError ;
     
@@ -31,7 +31,7 @@ function MainPage({token, setToken}){
         }
     }, [currentUser])
     
-    console.log(usersOnline)
+    console.log(lastMessages)
    
     const handleLogout = ()=>{
         setToken(null)
@@ -63,7 +63,7 @@ const currentUserData = ()=>{
                         lastMessages={lastMessages}
                         onClick={setSelectedUser}
                         isSelected={selectedUser === user?._id}
-                        usersOnline={usersOnline}
+                        onlineUsers={onlineUsers}
                     />))}
                       
                     
@@ -81,7 +81,7 @@ const currentUserData = ()=>{
                         selectedUser={users.find(user => String(user._id) === selectedUser)}
                         deleteMessage={deleteMessage}
                         currentUser={currentUser}
-                        usersOnline={usersOnline}
+                        onlineUsers={onlineUsers}
                         readMessage={readMessage}
                        /> 
                        </div>

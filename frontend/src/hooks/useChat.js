@@ -80,10 +80,6 @@ export function useChat(selectedUser, currentUser){
     const {data: lastMessages} = useQuery({
         queryKey: ['lastMessages'],
         queryFn: () => api.getLastMessages(),
-        onSuccess: (data)=>{
-            socket.emit('lastMessages', data)
-
-        },
         enabled: !!currentUser,
       });
 

@@ -1,8 +1,8 @@
 
 import './contacts.css'
 
-export default function Contacts({user, isSelected, onClick, usersOnline, lastMessages}){
-    const isOnline = usersOnline?.includes(user._id)
+export default function Contacts({user, isSelected, onClick, onlineUsers, lastMessages}){
+    const isOnline = onlineUsers?.includes(user._id)
     const lastMessage = lastMessages?.find(m => String(m.senderId) === user._id || String(m.receiverId) === user._id)
     return(                 
 

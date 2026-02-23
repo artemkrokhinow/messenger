@@ -50,15 +50,15 @@ const MessageService = {
             const result = await Message.aggregate([
                 {$match: {
                     $or: [
-                    { senderId: currentUser },
-                    { receiverId: currentUser }
+                    { senderId: user },
+                    { receiverId: user }
                     ]
                 }},
                 {$sort: { createdAt: -1 
                 }},
                 {$group: {
                     _id: {
-                      $cond: [ { $eq: ["$senderId", currentUser] }, "$receiverId", "$senderId" ]
+                      $cond: [ { $eq: ["$senderId", user] }, "$receiverId", "$senderId" ]
                     },
                 lastMessage: { $first: "$$ROOT" }
                 }},

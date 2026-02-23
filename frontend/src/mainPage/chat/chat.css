@@ -14,13 +14,12 @@
   border: 1px;
 }
 .chat-header {
-  position: absolute;
   width: 100%;
   padding: 15px 15px;
   margin: 0px 0px;
   background: rgba(241, 241, 241, 0);
-
 }
+
 
 .message-list {
   flex: 1;
