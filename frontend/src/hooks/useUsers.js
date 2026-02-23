@@ -10,8 +10,8 @@ import api from '../services/api.js';
       });
        const {data: onlineUsers = []} = useQuery({
       queryKey: ['onlineUsers'],
-      queryFn: ()=> [],
-      staleTime: Infinity
+      queryFn: ()=> api.getOnlineUsers(),
+      staleTime: 150000
     });
       
 return{onlineUsers ,users, error, isLoading};

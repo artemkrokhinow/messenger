@@ -31,8 +31,7 @@ function MainPage({token, setToken}){
         }
     }, [currentUser])
     
-    console.log(lastMessages)
-    console.log(messages)
+    console.log(usersOnline)
    
     const handleLogout = ()=>{
         setToken(null)

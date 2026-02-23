@@ -17,13 +17,20 @@ const io = new Server(server, {
                      "http://localhost:3000" 
     ]}
 })
-
+const onlineUsers = new Map();
 app.use(cors())
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/api', rrouter)
 app.use('/api', routerMessage)
 app.use('/api', routerProfile)
+app.get('/api/online-users', (req, res) => {
+    try{
+    res.json(Array.from(onlineUsers.keys()).map(id => String(id)));
+}catch (error){
+    console.error('Error fetching online users:', error);
+    res.status(500).json({message: "Error fetching online users", error: error.message, stack: error.stack });
+}});
 app.use((req, res) => {
     res.status(404).json({message: "route not found"})
 })
@@ -32,13 +39,15 @@ app.use((err, req, res, next) => {
     res.status(500).json({message: "Internal Server Error"})
 })
 
-const onlineUsers = new Map();
+
 io.on('connection', (socket) => {
     socket.on('addUser', (userId) => {
-        socket.userId = userId;
-        console.log(`User connected: ${userId}`);
-        onlineUsers.set(userId, socket.id)
+        const stringUserId = String(userId);
+        socket.userId = stringUserId;
+        console.log(`User connected: ${stringUserId}`);
+        onlineUsers.set(stringUserId, socket.id)
         io.emit('onlineUsers', Array.from(onlineUsers.keys()));
+        console.log('Current online users:', Array.from(onlineUsers.keys()));
     });
 
     socket.on('sendMessage', async (data) => {

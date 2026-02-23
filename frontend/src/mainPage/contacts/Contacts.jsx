@@ -2,14 +2,14 @@
 import './contacts.css'
 
 export default function Contacts({user, isSelected, onClick, usersOnline, lastMessages}){
-    const isOnline = usersOnline?.find(u => String(u._id) === user._id)
+    const isOnline = usersOnline?.includes(user._id)
     const lastMessage = lastMessages?.find(m => String(m.senderId) === user._id || String(m.receiverId) === user._id)
     return(                 
 
             
                             <li key={user._id}>
-                                {isOnline && (<div className=".green-dot"></div>)}
                                 <button className={`user-button ${isSelected ? 'selected' : ''}`} onClick={() => onClick(user._id)}>
+                                    {isOnline ? (<div className="green-dot"></div>) : (<div className="gray-dot"></div>)}
                                     <img src={user.avatar} alt="User Avatar" className="contact-avatar"/>
                                     <div  className="text-container">
                                     <p className="user-name">{user.name}</p> 

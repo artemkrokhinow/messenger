@@ -48,7 +48,7 @@ const RegistrController = {
             } const token = generateAccessToken(user._id, user.email)
             return res.json({token})
         }catch(e){
-            res.status(400).json({message: 'login error' })
+            res.status(400).json({message: 'ControllerLogin error' })
         }
       
     },
@@ -61,7 +61,6 @@ const RegistrController = {
                     email: p.email,
                     avatar: p.avatar
             }))
-            messageService.getLastMessages(users.map(u => u._id))
             res.json(users)
             
         }catch(e) {

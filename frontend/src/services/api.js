@@ -27,7 +27,7 @@ const BASE_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5000/api');
     }
     
 }catch (error){
-    console.error('API Service Error:', error, BASE_URL);
+    console.error('API Service Error:', error, BASE_URL, url, config);
     throw error;
 }
 
@@ -78,6 +78,9 @@ const api = {
     },
     getLastMessages: ()=>{
         return request(`/chat`, {cache: 'no-cache'})
+    },
+    getOnlineUsers: ()=>{
+        return request('/online-users', {cache: 'no-cache'})
     }
 
 };

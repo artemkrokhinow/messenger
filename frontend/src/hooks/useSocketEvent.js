@@ -7,16 +7,42 @@ export function useSocketEvent() {
     const queryClient = useQueryClient()
 useEffect(()=>{
     const handleMessage = (data) =>{
-        queryClient.invalidateQueries({queryKey: ['messages', data.senderId]});
+        queryClient.setQueryData(['users'], user => {
+        
+        const userFind = (user.find(u => 
+                                u._id === data.senderId
+                                ))
+        if(!userFind) return user
+        const userFilter = user.filter(u => 
+                                u._id !== data.senderId
+                                 )
+            return [userFind ,...userFilter]
+        });
+        queryClient.setQueriesData({queryKey: ['messages']}, (messages) => {
+            if (!messages) return [];
+            return [...messages, data];
+        });
         queryClient.setQueriesData({queryKey: ['lastMessages']}, (messages) => {
             if (!messages) return [];
-            const lastMessages = messages.filter(msg => String(msg._id) !== String(data._id));
-            return [...lastMessages, data];
-    }     );
+            const lastMessage = (messages.find(message => 
+                                (message.senderId === data.senderId &&  message.receiverId === data.receiverId) || 
+                                (message.receiverId === data.senderId &&  message.senderId === data.receiverId)
+                                ))
+                    if(lastMessage){
+        
+                        return messages.map(message => 
+                                (message.senderId === data.senderId &&  message.receiverId === data.receiverId) || 
+                                (message.receiverId === data.senderId &&  message.senderId === data.receiverId)
+                                ? data 
+                                : message)
+                        
+                    }else { 
+                    return [...messages, data]
+                    }});
     }
     const handleOnlineUsers = (data) =>{
-        queryClient.invalidateQueries({queryKey: ['onlineUsers', data]});
-    }
+        queryClient.setQueryData(['onlineUsers'], data)  
+    };
     const handleUpdateAvatar = (data) =>{
             queryClient.setQueriesData({queryKey: ['profile']}, (oldProfile) => {
                 if (!oldProfile) return undefined;

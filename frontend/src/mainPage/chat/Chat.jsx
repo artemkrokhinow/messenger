@@ -9,7 +9,7 @@ import {useState, useRef, useEffect} from 'react'
 import {useQueryClient} from '@tanstack/react-query'
 
 
-export default function Chat({ currentUser, messages, sendMessage, NewMessageText, setNewMessageText, handleBack, selectedUser, deleteMessage, readMessage}){
+export default function Chat({ currentUser, messages, sendMessage, NewMessageText, setNewMessageText, handleBack, selectedUser, deleteMessage, readMessage, usersOnline}){
 const queryClient = useQueryClient();
    const [messageClickId, setMessageClickId] = useState(null)
    const navigate = useNavigate();
@@ -63,7 +63,7 @@ observer.current = new IntersectionObserver((entries) => {
             navigate(`/profile/${selectedUser.email}`)
         }
     }
-
+     const isOnline = usersOnline?.includes(currentUser)
     return(
    <main className="chat-area">
                       
@@ -77,6 +77,7 @@ observer.current = new IntersectionObserver((entries) => {
                     <button className='profile-button' onClick={handleProfile}>
                         <img src={selectedUser?.avatar} alt="User Avatar" className="avatar" />
                         <span className="chat-name">{selectedUser?.name}</span>
+                         {isOnline ? (<div className="green-dot"></div>) : (<div className="gray-dot"></div>)}
                     </button>
                 </div><div className='message-list'>
                         {messages.map(msg => (

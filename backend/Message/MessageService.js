@@ -45,20 +45,20 @@ const MessageService = {
                 return [];
             }
 
-            const user = new Types.ObjectId(currentUser)
+            const user = new Types.ObjectId(String(currentUser))
             
             const result = await Message.aggregate([
                 {$match: {
                     $or: [
-                    { senderId: user },
-                    { receiverId: user }
+                    { senderId: currentUser },
+                    { receiverId: currentUser }
                     ]
                 }},
                 {$sort: { createdAt: -1 
                 }},
                 {$group: {
                     _id: {
-                      $cond: [ { $eq: ["$senderId", user] }, "$receiverId", "$senderId" ]
+                      $cond: [ { $eq: ["$senderId", currentUser] }, "$receiverId", "$senderId" ]
                     },
                 lastMessage: { $first: "$$ROOT" }
                 }},

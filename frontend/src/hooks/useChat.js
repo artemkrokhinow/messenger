@@ -11,11 +11,34 @@ export function useChat(selectedUser, currentUser){
         onSuccess: (data)=>{
             socket.emit('sendMessage', data);
             queryClient.invalidateQueries({queryKey: ['messages', chatId]});
-             queryClient.setQueriesData({queryKey: ['lastMessages']}, (messages) => {
+            queryClient.setQueryData(['users'], user => {
+        
+        const userFind = (user.find(u => 
+                                u._id === data.receiverId
+                                ))
+        if(!userFind) return user
+        const userFilter = user.filter(u => 
+                                u._id !== data.receiverId
+                                 )
+            return [userFind ,...userFilter]
+        });
+               queryClient.setQueriesData({queryKey: ['lastMessages']}, (messages) => {
             if (!messages) return [];
-            const lastMessages = messages.filter(msg => String(msg._id) !== String(data._id));
-            return [...lastMessages, data];
-    }     )
+            const lastMessage = (messages.find(message => 
+                                (message.senderId === data.senderId &&  message.receiverId === data.receiverId) || 
+                                (message.receiverId === data.senderId &&  message.senderId === data.receiverId)
+                                ))
+                    if(lastMessage){
+        
+                        return messages.map(message => 
+                                (message.senderId === data.senderId &&  message.receiverId === data.receiverId) || 
+                                (message.receiverId === data.senderId &&  message.senderId === data.receiverId)
+                                ? data 
+                                : message)
+                        
+                    }else { 
+                    return [...messages, data]
+                    }})
             }
         });
     const {mutateAsync: readMessageMutation, } = useMutation({
