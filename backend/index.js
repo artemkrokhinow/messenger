@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
         socket.userId = stringUserId;
         console.log(`User connected: ${stringUserId}`);
         onlineUsers.set(stringUserId, socket.id)
-        io.to(onlineUsers).emit('onlineUsers', Array.from(onlineUsers.keys()));
+        socket.broadcast.emit('onlineUsers', Array.from(onlineUsers.keys()));
         console.log('Current online users:', Array.from(onlineUsers.keys()));
     });
 
