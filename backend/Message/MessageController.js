@@ -39,6 +39,16 @@ async deleteMessage(req, res){
         res.status(500).json({message: "controll deleteMessage error"})
     }
 },
+async editMessage(req, res){
+    try {
+        const messageId = req.params.messageId
+        const { text } = req.body
+        const updatedMessage = await MessageService.editMessage(messageId, text)
+        return res.json(updatedMessage)
+    }catch(e){
+        res.status(500).json({message: "controll editMessage error"})
+    }
+},
 async getLastMessages(req, res){
     try{
         const currentUser = req.user.id

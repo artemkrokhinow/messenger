@@ -70,6 +70,22 @@ export function useChat(selectedUser, currentUser){
         });
         }
     })
+    const {mutateAsync : editMessageMutation, } = useMutation({
+        mutationFn: async ({messageId, text})=>{
+            return( api.editMessage(messageId, text))
+        }, 
+        onSuccess: (data)=>{
+            socket.emit('editMessage', data);
+            queryClient.setQueryData(['messages', chatId], (oldMessages) =>{
+                if (!oldMessages) return [];
+                return oldMessages.map(msg => String(msg._id) === String(data._id) ? {...msg, text: data.text} : msg);
+            });
+            queryClient.setQueriesData({queryKey: ['lastMessages']}, (messages) => {
+                if (!messages) return [];
+                return messages.map(message => String(message._id) === String(data._id) ? {...message, text: data.text} : message);
+            });
+        }
+    })
    
     const {data: messages = []} = useQuery({   
         queryKey: ['messages', chatId],
@@ -84,5 +100,5 @@ export function useChat(selectedUser, currentUser){
       });
 
 
-    return{messages, sendMessage: sendMessageMutation, readMessage: readMessageMutation , deleteMessage: deleteMessageMutation, lastMessages};
+    return{messages, sendMessage: sendMessageMutation, readMessage: readMessageMutation , deleteMessage: deleteMessageMutation, editMessage: editMessageMutation, lastMessages};
 }

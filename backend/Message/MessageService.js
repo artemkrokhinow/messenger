@@ -38,6 +38,15 @@ const MessageService = {
         const deleteMessage = await Message.findByIdAndDelete(messageId)
         return(deleteMessage)
     },
+    async editMessage(messageId, text){
+        if(!messageId) return
+        const updatedMessage = await Message.findByIdAndUpdate(
+            messageId,
+            {text: text},
+            {new: true}
+        )
+        return updatedMessage
+    },
     async getLastMessages(currentUser){
         try{
             if (!Types.ObjectId.isValid(currentUser)) {

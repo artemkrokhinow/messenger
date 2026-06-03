@@ -76,6 +76,17 @@ useEffect(()=>{
             return oldMessages.filter(msg => String(msg._id) !== String(data._id));
         });
     }
+    const handleEditMessage = (data) =>{
+        queryClient.setQueryData(['messages', data.senderId], (oldMessages) => {
+            if (!oldMessages) return [];
+            return oldMessages.map(msg => String(msg._id) === String(data._id) ? {...msg, text: data.text} : msg);
+        });
+        queryClient.setQueriesData({queryKey: ['lastMessages']}, (messages) => {
+            if (!messages) return [];
+            return messages.map(message => String(message._id) === String(data._id) ? {...message, text: data.text} : message);
+        });
+    }
+    socket.on('editMessage', handleEditMessage)
     socket.on('deleteMessage', handleDeleteMessage)
     socket.on('onlineUsers', handleOnlineUsers)
     socket.on('getMessage', handleMessage)
@@ -87,6 +98,7 @@ useEffect(()=>{
         socket.off('updateAvatar', handleUpdateAvatar)
         socket.off('readMessage', handleReadMessage)
         socket.off('deleteMessage', handleDeleteMessage)
+        socket.off('editMessage', handleEditMessage)
     }
 },[queryClient])
     }

@@ -9,6 +9,7 @@ routerMessage.get('/chat/:otherUserId', authMiddleware, MessageController.getCon
 routerMessage.post('/chat/:messageId', authMiddleware, MessageController.messageRead)
 routerMessage.post('/chat', authMiddleware, MessageController.createMessage)
 routerMessage.delete('/chat/:messageId', authMiddleware, MessageController.deleteMessage)
+routerMessage.put('/chat/:messageId', authMiddleware, MessageController.editMessage)
 
 
 export default routerMessage

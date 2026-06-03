@@ -58,6 +58,12 @@ const api = {
             method: 'DELETE'
         })
     },
+    editMessage: (messageId, text)=>{
+        return request(`/chat/${messageId}`, {
+            method: 'PUT',
+            body: JSON.stringify({text})
+        })
+    },
 
     uploadAvatar: (file, userId) => {
         return request(`/profile/${userId}`, {

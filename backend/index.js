@@ -63,6 +63,9 @@ io.on('connection', (socket) => {
     socket.on('deleteMessage', async (data) => {
         io.to(onlineUsers.get(data.receiverId)).emit('deleteMessage', data);
     })
+    socket.on('editMessage', async (data) => {
+        io.to(onlineUsers.get(data.receiverId)).emit('editMessage', data);
+    })
 
 socket.on('disconnect', () => {
     onlineUsers.delete(socket.userId);

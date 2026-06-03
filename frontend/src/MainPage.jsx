@@ -17,7 +17,7 @@ function MainPage({token, setToken}){
     const [selectedUser, setSelectedUser] = useState()
     const {id :currentUser} = (jwtDecode(token))
     const {onlineUsers ,users,error: usersError} = useUsers(token)
-    const {messages, sendMessage, deleteMessage, readMessage, lastMessages} = useChat(selectedUser, currentUser);
+    const {messages, sendMessage, deleteMessage, readMessage, editMessage, lastMessages} = useChat(selectedUser, currentUser);
     const error = usersError ;
     
     useSocketEvent(currentUser, selectedUser?._id)
@@ -77,6 +77,7 @@ console.log(users)
                         handleBack={handleBack}
                         selectedUser={users.find(user => String(user._id) === selectedUser)}
                         deleteMessage={deleteMessage}
+                        editMessage={editMessage}
                         currentUser={currentUser}
                         onlineUsers={onlineUsers}
                         readMessage={readMessage}

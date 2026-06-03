@@ -9,11 +9,13 @@ export default function Contacts({user, isSelected, onClick, onlineUsers, lastMe
             
                             <li key={user._id}>
                                 <button className={`user-button ${isSelected ? 'selected' : ''}`} onClick={() => onClick(user._id)}>
-                                    {isOnline ? (<div className="green-dot"></div>) : (<div className="gray-dot"></div>)}
-                                    <img src={user.avatar} alt="User Avatar" className="contact-avatar"/>
-                                    <div  className="text-container">
-                                    <p className="user-name">{user.name}</p> 
-                                    {lastMessage && <p className="last-message">{lastMessage.text}</p>}
+                                    <div className="contact-avatar-wrapper">
+                                        <img src={user.avatar} alt="User Avatar" className="contact-avatar"/>
+                                        {isOnline ? (<div className="green-dot status-dot"></div>) : (<div className="gray-dot status-dot"></div>)}
+                                    </div>
+                                    <div className="text-container">
+                                        <p className="user-name">{user.name}</p> 
+                                        {lastMessage && <p className="last-message">{lastMessage.text}</p>}
                                     </div>
                                 </button>
                             </li>
