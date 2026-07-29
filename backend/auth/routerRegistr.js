@@ -5,6 +5,7 @@ const rrouter = new Router()
 
 rrouter.post('/registration', RegistrController.registration)
 rrouter.post('/login', RegistrController.login)
+rrouter.post('/google-login', RegistrController.googleLogin)
 rrouter.get('/contacts', authMiddleware, RegistrController.getContacts)
 
 export default rrouter

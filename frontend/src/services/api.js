@@ -82,11 +82,25 @@ const api = {
             body:JSON.stringify({email, password, name})
         })
     },
+    googleLogin: (credential) => {
+        return request('/google-login', {
+            method: 'POST',
+            body: JSON.stringify({ credential })
+        });
+    },
     getLastMessages: ()=>{
         return request(`/chat`, {cache: 'no-cache'})
     },
     getOnlineUsers: ()=>{
         return request('/online-users', {cache: 'no-cache'})
+    },
+    ping: async () => {
+        try {
+            const response = await fetch(BASE_URL + '/ping');
+            return response.ok;
+        } catch (error) {
+            return false;
+        }
     }
 
 };

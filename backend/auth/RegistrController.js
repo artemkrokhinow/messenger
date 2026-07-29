@@ -5,6 +5,9 @@ import jwt from "jsonwebtoken";
 import {secret} from "../config.js"
 import Profile from '../models/ProfileModels.js'
 import messageService from '../Message/MessageService.js'
+import { OAuth2Client } from 'google-auth-library'
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
 const generateAccessToken = (id, email) =>{
@@ -51,6 +54,43 @@ const RegistrController = {
             res.status(400).json({message: 'ControllerLogin error' })
         }
       
+    },
+    async googleLogin(req, res) {
+        try {
+            const { credential } = req.body;
+            const ticket = await client.verifyIdToken({
+                idToken: credential,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+            const payload = ticket.getPayload();
+            const { email, name, picture } = payload;
+            
+            let user = await User.findOne({ email });
+            
+            if (!user) {
+                // Create new user without password
+                user = new User({ email, name });
+                await user.save();
+                
+                // Create profile with Google picture
+                const newProfile = new Profile({
+                    user: user._id,
+                    name: user.name,
+                    email: user.email,
+                    avatar: picture,
+                    description: 'Hello, world!',
+                    birthday: null,
+                    lastSeen: Date.now()
+                });
+                await newProfile.save();
+            }
+            
+            const token = generateAccessToken(user._id, user.email);
+            return res.json({ token });
+        } catch (e) {
+            console.error('Google Login Error:', e);
+            res.status(400).json({ message: 'Google login failed', error: e.message });
+        }
     },
     async getContacts(req,res){
         try{
