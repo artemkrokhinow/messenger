@@ -23,6 +23,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/api', rrouter)
 app.use('/api', routerMessage)
 app.use('/api', routerProfile)
+app.get('/api/ping', (req, res) => res.status(200).json({ message: 'pong' }));
 app.get('/api/online-users', (req, res) => {
     try{
     console.log('Fetching online users:', Array.from(onlineUsers.keys()));
