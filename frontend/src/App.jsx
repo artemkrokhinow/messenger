@@ -9,8 +9,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
-const queryClient = new QueryClient();
 import api from './services/api.js';
+const queryClient = new QueryClient();
 
 function App() {
   const [ token ,setToken  ] = useState(localStorage.getItem('token'))
